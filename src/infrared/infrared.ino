@@ -1,4 +1,4 @@
-int IRSensor = 2;
+int IRSensor = 3;
 int LED = 13; 
 
 
