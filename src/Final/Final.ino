@@ -31,4 +31,6 @@ void loop() {
   if(digitalRead(IRR1) == 1) digitalWrite(LEDRG, HIGH);
   else digitalWrite(LEDRG, LOW);
 
+  if(digitalRead(IRR1) == 0) digitalWrite(LEDRR, HIGH);
+  else digitalWrite(LEDRR, LOW);
 }
