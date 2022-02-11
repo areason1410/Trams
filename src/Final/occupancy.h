@@ -1,11 +1,11 @@
 #pragma once
 
 
-const byte IRR1 = 3;
-const byte IRR2 = 4;
+const byte IRR1 = 1;
+const byte IRR2 = 2;
 
-const byte IRL1 = 6;
-const byte IRL2 = 7;
+const byte IRL1 = 3;
+const byte IRL2 = 4;
 
 enum Section 
 {
@@ -19,6 +19,10 @@ enum Destination
   Salisbury,
   Wilton
 };
+
+Section section = A;
+Destination destination = Wilton;
+Section destinationSection = (Section)((int)destination+1);
 
 /*
     Array which contains the IR Sensors pins in
@@ -76,8 +80,8 @@ MapData Map[4] =
   MapData(IRR2, Salisbury),
 };
 
-//Function to keep code clean
-void setNextSection(Section &section)
+//Function to 
+void setNextSection()
 {
   /*
       Iterate over the IRArray to find which sensor is currently active
