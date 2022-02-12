@@ -10,6 +10,9 @@ void updateMovement()
     // if going to wilton, go forwards, else go back
     int8_t direction = destination == Wilton ? 1 : -1;
 
+    //stop if the next section is not free / red light
+    if(!nextSectionIsFree()) analogWrite(speedPin, 0);
+
     if(section != destinationSection)
     {
         // 0 to 255
