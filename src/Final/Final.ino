@@ -1,7 +1,12 @@
-#include "movement.h"
+#include "train.h"
 
-void setup() {
 
+Train train1(A, Wilton, 1);
+
+
+
+void setup() 
+{
     Serial.begin(9600);
     pinMode(IRR1, INPUT);
     pinMode(IRR2, INPUT);
@@ -16,10 +21,12 @@ void setup() {
     pinMode(speedPin, OUTPUT);
 
 }
-void loop() {
+void loop()
+{
+    // MAKE SURE TO UPDATE TRAINS FIRST
+    train1.update();
 
-    setNextSection();
+
+    
     updateSignals();
-    updateMovement();
-
 }

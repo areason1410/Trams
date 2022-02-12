@@ -12,57 +12,65 @@ const byte LEDRR = 8;
 byte LEDArray[4] = {LEDLG, LEDLR, LEDRG, LEDRR};
 
 
-struct Signal
+class Signal
 {
-    byte greenPin;
-    byte redPin;
-    bool isEmpty;
-    Section nextSection;
+public:
+
+    bool m_isEmpty;
+    Section m_nextSection;
 
     Signal(byte green, byte red, Section sect):
-    greenPin(green), redPin(red), nextSection(sect)
+    m_greenPin(green), m_redPin(red), m_nextSection(sect)
     {
-        isEmpty = true;
-        update();
-    }
-
-    // helper function to check if it is the next section
-    bool checkIfIsNextSection()
-    {
-        return (int)section == (int)nextSection-1;
-    }
-
-    // make signal green
-    void setGreen()
-    {
-        digitalWrite(greenPin, HIGH);
-        digitalWrite(redPin, LOW);
-        isEmpty = true;
-    }
-
-    //make signal red
-    void setRed()
-    {
-        digitalWrite(greenPin, LOW);
-        digitalWrite(redPin, HIGH);
-        isEmpty = false;
+        m_isEmpty = true;
+        setGreen();
     }
 
     /*
         Set LED's according to if the current section
         is empty and is the next section.
-        by default isEmpty = true
+        by default m_isEmpty = true
     */
     void update()
     {
-        if(checkIfIsNextSection() && isEmpty == true)
+        for(MapData &data : Map)
         {
-            setGreen();
+            if(digitalRead(data.pin) == 0 && data.newSection == m_nextSection)
+            {
+                setRed();
+                m_isEmpty = false;
+            }
+            else
+            {
+                setGreen();
+                m_isEmpty = true;
+            }
         }
-        else
-        {
-            setRed();
-        }
+    }
+
+    bool checkIfIsNextSection(Section currentSection)
+    {
+        return (int)m_nextSection == (int)currentSection+1;
+    }
+
+private:
+    byte m_greenPin;
+    byte m_redPin;
+
+    // make signal green
+    void setGreen()
+    {
+        digitalWrite(m_greenPin, HIGH);
+        digitalWrite(m_redPin, LOW);
+        m_isEmpty = true;
+    }
+
+    //make signal red
+    void setRed()
+    {
+        digitalWrite(m_greenPin, LOW);
+        digitalWrite(m_redPin, HIGH);
+        m_isEmpty = false;
     }
 };
 
@@ -80,23 +88,4 @@ void updateSignals()
     {
         signal.update();
     }
-}
-
-
-/*
-    Checks if the next section is free.
-    If it isn't returns false to tell the train
-    to stop.
-*/
-bool nextSectionIsFree()
-{
-    for(Signal &signal : SignalArray)
-    {
-        if(signal.checkIfIsNextSection() && signal.isEmpty == true)
-        {
-            return true;
-        }
-    }
-
-    return false;
 }

@@ -20,9 +20,6 @@ enum Destination
   Wilton
 };
 
-Section section = A;
-Destination destination = Wilton;
-Section destinationSection = (Section)((int)destination+1);
 
 /*
     Array which contains the IR Sensors pins in
@@ -32,9 +29,6 @@ Section destinationSection = (Section)((int)destination+1);
     Left is Wilton, Right is Salisbury
 */
 byte IRArray[4] = {IRL1, IRL2, IRR1, IRR2};
-
-// temporary value to calculate next section
-byte tempValue = 0;
 
 
 /*
@@ -46,7 +40,7 @@ struct MapData
 {
   byte pin;
   Destination destination;
-  Section newSection;
+  Section newSection; // Section its detecting for
 
   MapData(byte pin, Destination destination):
   pin(pin), destination(destination)
@@ -79,33 +73,3 @@ MapData Map[4] =
   MapData(IRR1, Wilton),
   MapData(IRR2, Salisbury),
 };
-
-//Function to 
-void setNextSection()
-{
-  /*
-      Iterate over the IRArray to find which sensor is currently active
-      then store that pin in the tempValue variable
-  */
-  for(byte &pin : IRArray)
-  {
-    if(digitalRead(pin) == 0)
-    {
-      tempValue = pin;
-    }
-  }
-
-  /*
-      Iterate over the map data and compare the tempValue to the
-      map data, if the tempValue is the same as the pin for the 
-      map data then set the current section equal to the calculated
-      new section from the map data
-  */
-  for(MapData &data : Map)
-  {
-    if(tempValue == data.pin)
-    {
-      section = data.newSection;
-    }
-  }
-}
