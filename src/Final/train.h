@@ -21,7 +21,7 @@ public:
     Train(Section section, Destination destination, byte ID):
     m_section(section), m_destination(destination), m_ID(ID)
     {
-        m_destinationSection = (Section)((int)m_destination+1);
+        m_destinationSection = destinationSection(m_destination);
         m_direction = m_destination == Wilton ? Forward : Backward;
     }
 

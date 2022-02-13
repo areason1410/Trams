@@ -1,4 +1,5 @@
 #pragma once
+#include "enum.h"
 
 
 const byte IRR1 = 1;
@@ -7,25 +8,6 @@ const byte IRR2 = 2;
 const byte IRL1 = 3;
 const byte IRL2 = 4;
 
-enum Section 
-{
-  A = 0,
-  B,
-  C
-};
-
-enum Destination
-{
-  Salisbury,
-  Wilton
-};
-
-enum Direction
-{
-    Forward = 1,
-    Backward = -1,
-    None
-};
 
 
 /*
@@ -81,7 +63,6 @@ struct MapData
       sensorTriggered = false;
     }
   }
-
 };
 
 // Map Data for the track (IRSensors), order Wilton -> Salisbury

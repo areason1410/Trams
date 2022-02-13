@@ -77,7 +77,7 @@ private:
 Signal SignalArray[2] =
 {
     Signal(LEDLG, LEDLR, Forward, B),
-    Signal(LEDRG, LEDRR, Backward, C)
+    Signal(LEDRG, LEDRR, Forward, C)
 };
 
 // Update each signal
