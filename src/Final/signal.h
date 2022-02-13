@@ -9,18 +9,17 @@ const byte LEDRG = 7;
 const byte LEDRR = 8;
 
 
-byte LEDArray[4] = {LEDLG, LEDLR, LEDRG, LEDRR};
-
-
 class Signal
 {
 public:
 
     bool m_isEmpty;
     Section m_nextSection;
+    Direction m_direction;
 
-    Signal(byte green, byte red, Section sect):
-    m_greenPin(green), m_redPin(red), m_nextSection(sect)
+    Signal(byte greenPin, byte redPin, Direction direction, Section nextSection):
+    m_greenPin(greenPin), m_redPin(redPin), m_direction(direction),
+    m_nextSection(nextSection)
     {
         m_isEmpty = true;
         setGreen();
@@ -35,7 +34,7 @@ public:
     {
         for(MapData &data : Map)
         {
-            if(digitalRead(data.pin) == 0 && data.newSection == m_nextSection)
+            if(data.sensorTriggered && data.nextSection == m_nextSection)
             {
                 setRed();
                 m_isEmpty = false;
@@ -50,7 +49,7 @@ public:
 
     bool checkIfIsNextSection(Section currentSection)
     {
-        return (int)m_nextSection == (int)currentSection+1;
+        return (int)m_nextSection == (int)currentSection+1*(int)m_direction;
     }
 
 private:
@@ -74,14 +73,14 @@ private:
     }
 };
 
+// Our array of signals
 Signal SignalArray[2] =
 {
-    Signal(LEDLG, LEDLR, B),
-    Signal(LEDRG, LEDRR, C)
+    Signal(LEDLG, LEDLR, Forward, B),
+    Signal(LEDRG, LEDRR, Backward, C)
 };
 
-
-
+// Update each signal
 void updateSignals()
 {
     for(Signal &signal : SignalArray)

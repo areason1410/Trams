@@ -5,12 +5,6 @@ byte motor1 = 9;
 byte motor2 = 10;
 byte speedPin = 11;
 
-enum Direction
-{
-    Forward,
-    Backwards,
-    None
-};
 
 // if going to wilton, go forwards, else go back
 
@@ -28,7 +22,7 @@ public:
     m_section(section), m_destination(destination), m_ID(ID)
     {
         m_destinationSection = (Section)((int)m_destination+1);
-        m_direction = m_destination == Wilton ? Forward : Backwards;
+        m_direction = m_destination == Wilton ? Forward : Backward;
     }
 
     void update()
@@ -70,21 +64,29 @@ private:
         return false;
     }
 
+    /*
+        Function to update the current section.
+        provided the sensor is active and is the 
+        correct sensor
+        
+        Call this function after checking the next 
+        section is free
+    */
     void setNextSection()
     {
         for(MapData &data : Map)
         {
-            if(digitalRead(data.pin) == 0)
+            if(data.sensorTriggered && (int)data.nextSection == (int)m_section+1)
             {
-                m_section = data.newSection;
+                m_section = data.nextSection;
             }
         }
     }
 
     /*
-    Function to set the direction of the motor
-    using the direction
-    anything else means stop
+        Function to set the direction of the motor
+        using the direction
+        anything else means stop
     */
     void setMotorPins()
     {
@@ -93,7 +95,7 @@ private:
             digitalWrite(motor1, HIGH);
             digitalWrite(motor2, LOW);
         }
-        else if(m_direction == Backwards)
+        else if(m_direction == Backward)
         {
             digitalWrite(motor1, LOW);
             digitalWrite(motor2, HIGH);

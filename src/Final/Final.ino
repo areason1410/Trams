@@ -3,8 +3,6 @@
 
 Train train1(A, Wilton, 1);
 
-
-
 void setup() 
 {
     Serial.begin(9600);
@@ -23,10 +21,14 @@ void setup()
 }
 void loop()
 {
-    // MAKE SURE TO UPDATE TRAINS FIRST
+    // MAKE SURE TO UPDATE SENSORS FIRST
+    updateSensers();
+
+
+    // MAKE SURE TO UPDATE TRAINS SECOND
     train1.update();
 
 
-    
+    // MAKE SURE TO UPDATE SIGNALS LAST
     updateSignals();
 }

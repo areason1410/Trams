@@ -20,6 +20,13 @@ enum Destination
   Wilton
 };
 
+enum Direction
+{
+    Forward = 1,
+    Backward = -1,
+    None
+};
+
 
 /*
     Array which contains the IR Sensors pins in
@@ -39,37 +46,57 @@ byte IRArray[4] = {IRL1, IRL2, IRR1, IRR2};
 struct MapData
 {
   byte pin;
-  Destination destination;
-  Section newSection; // Section its detecting for
+  Direction direction;
+  Section nextSection; // Section its detecting for
+  bool sensorTriggered;
 
-  MapData(byte pin, Destination destination):
-  pin(pin), destination(destination)
+  MapData(byte pin, Direction direction):
+  pin(pin), direction(direction)
   {
+    sensorTriggered = false;
     for(int i = 0; i < sizeof(IRArray) / sizeof(byte); i++)
     {
       if(IRArray[i] == pin)
       {
-        //newSection = i % 2 == 0 ? (Section)(i / 2) : (Section)((i+1) /2);
-        if(destination == Wilton) 
+        if(direction == Forward) 
         {
-            newSection = (Section)((i / 2) + 1);
+            nextSection = (Section)((i / 2) + 1);
         }
-        else if(destination == Salisbury)
+        else if(direction == Backward)
         {
-            newSection = (Section)(((i+1) / 2) - 1);
+            nextSection = (Section)(((i+1) / 2) - 1);
         }
       }
     }
   };
 
+  void checkSensors()
+  {
+    if(digitalRead(pin) == 0)
+    {
+      sensorTriggered = true;
+    }
+    else
+    {
+      sensorTriggered = false;
+    }
+  }
 
 };
 
 // Map Data for the track (IRSensors), order Wilton -> Salisbury
 MapData Map[4] = 
 {
-  MapData(IRL1, Wilton),
-  MapData(IRL2, Salisbury),
-  MapData(IRR1, Wilton),
-  MapData(IRR2, Salisbury),
+  MapData(IRL1, Forward),
+  MapData(IRL2, Backward),
+  MapData(IRR1, Forward),
+  MapData(IRR2, Backward),
 };
+
+void updateSensers()
+{
+  for(MapData &data : Map)
+  {
+    data.checkSensors();
+  }
+}
