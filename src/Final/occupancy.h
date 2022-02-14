@@ -2,11 +2,11 @@
 #include "enum.h"
 
 
-const byte IRR1 = 1;
-const byte IRR2 = 2;
 
-const byte IRL1 = 3;
-const byte IRL2 = 4;
+const byte IRL1 = 5;
+const byte IRL2 = 2;
+const byte IRR1 = 3;
+const byte IRR2 = 4;
 
 
 
@@ -66,12 +66,12 @@ struct MapData
 };
 
 // Map Data for the track (IRSensors), order Wilton -> Salisbury
-MapData Map[4] = 
+MapData Map[2] = 
 {
-  MapData(IRL1, Forward),
-  MapData(IRL2, Backward),
+  //MapData(IRL1, Backward),
+  MapData(IRL2, Forward),
   MapData(IRR1, Forward),
-  MapData(IRR2, Backward),
+  //MapData(IRR2, Backward),
 };
 
 void updateSensers()

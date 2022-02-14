@@ -1,9 +1,11 @@
 #pragma once
 #include "signal.h"
 
-byte motor1 = 9;
-byte motor2 = 10;
+byte motor2 = 9;
+byte motor1 = 10;
 byte speedPin = 11;
+
+
 
 
 // if going to wilton, go forwards, else go back
@@ -17,6 +19,7 @@ public:
     Section m_destinationSection;
     Direction m_direction;
     byte m_ID;
+    byte currentSpeed = 0;
 
     Train(Section section, Destination destination, byte ID):
     m_section(section), m_destination(destination), m_ID(ID)
@@ -29,17 +32,23 @@ public:
     {
 
         //stop if the next section is not free / red light
-        if(!nextSectionIsFree()) analogWrite(speedPin, 0);
+        if(!nextSectionIsFree())
+        {
+            analogWrite(speedPin, 0) ;
+            return;
+        } 
+
 
         if(m_section != m_destinationSection)
         {
             // 0 to 255
-            analogWrite(speedPin, 100);
+            analogWrite(speedPin, 255);
             setMotorPins();
             setNextSection();
         }
         else
         {
+            //currentSpeed -= 1;
             analogWrite(speedPin, 0);
         }
     }

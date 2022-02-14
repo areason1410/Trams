@@ -36,13 +36,13 @@ public:
         {
             if(data.sensorTriggered && data.nextSection == m_nextSection)
             {
+               
                 setRed();
-                m_isEmpty = false;
             }
             else
             {
+                if(m_isEmpty)
                 setGreen();
-                m_isEmpty = true;
             }
         }
     }
@@ -62,6 +62,7 @@ private:
         digitalWrite(m_greenPin, HIGH);
         digitalWrite(m_redPin, LOW);
         m_isEmpty = true;
+        Serial.println((int)m_nextSection);
     }
 
     //make signal red

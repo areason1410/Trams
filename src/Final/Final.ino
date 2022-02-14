@@ -27,6 +27,7 @@ void loop()
 
     // MAKE SURE TO UPDATE TRAINS SECOND
     train1.update();
+    //Serial.println(digitalRead(IRL2));
 
 
     // MAKE SURE TO UPDATE SIGNALS LAST
