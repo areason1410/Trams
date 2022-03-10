@@ -33,6 +33,23 @@ Section section = C;
 Destination destination = Salisbury;
 
 
+class signal {
+  public:
+    bool red
+    bool green
+}
+
+void setSignal(bool state) {
+  if state == true { //there is a train in the next section
+    red = true
+    green = false
+  } else {
+    red = false
+    green = true
+  }
+
+}
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -80,4 +97,31 @@ void loop() {
   }
   
   Serial.println(section);
+
+    signal signal1;
+    signal signal2;
+    signal signal3;
+    signal signal4;
+
+  if (Section == A) {
+    signal1.setSignal(false)
+    signal2.setSignal(true)
+    signal3.setSignal(false)
+    signal4.setSignal(false)
+  } else if (Section == B) {
+    signal1.setSignal(true)
+    signal2.setSignal(false)
+    signal3.setSignal(false)
+    signal4.setSignal(true)
+  } else if (Section == C) {
+    signal1.setSignal(false)
+    signal2.setSignal(false)
+    signal3.setSignal(true)
+    signal4.setSignal(false)
+  } else {
+    signal1.setSignal(false)
+    signal2.setSignal(false)
+    signal3.setSignal(false)
+    signal4.setSignal(false)
+  }
 }
