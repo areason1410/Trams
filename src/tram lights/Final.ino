@@ -33,13 +33,12 @@ Section section = C;
 Destination destination = Salisbury;
 
 
-class signal {
+class signal(led1, led2, led3, led4) {
   public:
     bool red
     bool green
-}
-
-void setSignal(bool state) {
+  
+  void setSignal(bool state) {
   if state == true { //there is a train in the next section
     red = true
     green = false
@@ -47,8 +46,32 @@ void setSignal(bool state) {
     red = false
     green = true
   }
+}
+}
+
+class LED(pin) {
+  public:
+    enum colour {red, green}
+    bool state
+    int pin
+
+    void turnOn(){
+      digitalWrite(this.pin, HIGH);
+    }
+
+    void turnOff(){
+      digitalWrite(this.pin, LOW)
+    }
+  private:
+    int pin = pin
 
 }
+
+signal signal1;
+signal signal2;
+signal signal3;
+signal signal4;
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -98,10 +121,10 @@ void loop() {
   
   Serial.println(section);
 
-    signal signal1;
-    signal signal2;
-    signal signal3;
-    signal signal4;
+  signal signal1;
+  signal signal2;
+  signal signal3;
+  signal signal4;
 
   if (Section == A) {
     signal1.setSignal(false)

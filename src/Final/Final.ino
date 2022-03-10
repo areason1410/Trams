@@ -37,9 +37,8 @@ class signal {
   public:
     bool red
     bool green
-}
-
-void setSignal(bool state) {
+  
+  void setSignal(bool state) {
   if state == true { //there is a train in the next section
     red = true
     green = false
@@ -47,8 +46,15 @@ void setSignal(bool state) {
     red = false
     green = true
   }
-
 }
+}
+
+signal signal1;
+signal signal2;
+signal signal3;
+signal signal4;
+
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -98,10 +104,7 @@ void loop() {
   
   Serial.println(section);
 
-    signal signal1;
-    signal signal2;
-    signal signal3;
-    signal signal4;
+
 
   if (Section == A) {
     signal1.setSignal(false)
@@ -123,5 +126,5 @@ void loop() {
     signal2.setSignal(false)
     signal3.setSignal(false)
     signal4.setSignal(false)
-  }
+  } 
 }
