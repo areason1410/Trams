@@ -32,11 +32,10 @@ public:
     */
     void update()
     {
-        for(MapData &data : Map)
+        for(Sensor &data : Map)
         {
             if(data.sensorTriggered && data.nextSection == m_nextSection)
             {
-               
                 setRed();
             }
             else

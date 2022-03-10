@@ -3,7 +3,7 @@
 
 
 
-const byte IRL1 = 5;
+const byte IRL1 = 12;
 const byte IRL2 = 2;
 const byte IRR1 = 3;
 const byte IRR2 = 4;
@@ -25,14 +25,14 @@ byte IRArray[4] = {IRL1, IRL2, IRR1, IRR2};
     Calculates the new section based on the destination and
     index in the IRArray
 */
-struct MapData
+struct Sensor
 {
   byte pin;
   Direction direction;
   Section nextSection; // Section its detecting for
   bool sensorTriggered;
 
-  MapData(byte pin, Direction direction):
+  Sensor(byte pin, Direction direction):
   pin(pin), direction(direction)
   {
     sensorTriggered = false;
@@ -61,22 +61,23 @@ struct MapData
     else
     {
       sensorTriggered = false;
+
     }
   }
 };
 
 // Map Data for the track (IRSensors), order Wilton -> Salisbury
-MapData Map[2] = 
+Sensor Map[2] = 
 {
   //MapData(IRL1, Backward),
-  MapData(IRL2, Forward),
-  MapData(IRR1, Forward),
+  Sensor(IRL2, Forward),
+  Sensor(IRR1, Forward),
   //MapData(IRR2, Backward),
 };
 
 void updateSensers()
 {
-  for(MapData &data : Map)
+  for(Sensor &data : Map)
   {
     data.checkSensors();
   }

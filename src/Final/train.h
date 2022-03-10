@@ -125,13 +125,21 @@ class Train
 public:
     
     Train(byte motorL, byte motorR, byte speedPin,
-    Direction direction, float acceleration, float decleleration):
-    m_motorL(motorL), m_motorR(motorR), m_speedPin(speedPin),
-    m_direction(direction), m_accelerationSpeed(acceleration), m_decelerationSpeed(decleleration)
+    Direction direction, float acceleration, float decleleration,
+    Section startSection, Destination destination):
+    m_motorL(motorL),
+    m_motorR(motorR),
+    m_speedPin(speedPin),
+    m_direction(direction),
+    m_accelerationSpeed(acceleration),
+    m_decelerationSpeed(decleleration),
+    m_section(startSection),
+    m_destination(destination)
     {
         m_speed = 0;
         m_maxSpeed = 255;
         m_shouldDecelerate = false;
+        m_destinationSection = destinationSection(m_destination);
     }
 
     void start()
@@ -157,15 +165,18 @@ public:
     void update()
     {
 
-        if(m_shouldDecelerate)
+        if(!m_shouldDecelerate && nextSectionIsFree() && m_section != m_destinationSection)
         {
-            m_speed =  m_speed >= 0 ? m_speed - 1 * m_decelerationSpeed : m_speed;
-            analogWrite(m_speedPin, (int)m_speed);
 
+            //m_speed = m_speed <= m_maxSpeed ? m_speed += 1 * m_accelerationSpeed : m_speed;
+            if(m_speed < m_maxSpeed) m_speed += 1;
+            analogWrite(m_speedPin, (int)m_speed);
+            setNextSection();
+            start();
         }
         else
         {
-            m_speed = m_speed <= m_maxSpeed ? m_speed + 1 * m_accelerationSpeed : m_speed;
+            if(m_speed > 0) m_speed -= 5;
             analogWrite(m_speedPin, (int)m_speed);
 
         }
@@ -173,9 +184,50 @@ public:
     }
     
 private:
+
+    /*
+        Checks if the next section is free.
+        If it isn't returns false to tell the train
+        to stop.
+    */
+    bool nextSectionIsFree()
+    {
+        for(Signal &signal : SignalArray)
+        {
+            if(signal.checkIfIsNextSection(m_section) && signal.m_isEmpty)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /*
+        Function to update the current section.
+        provided the sensor is active and is the 
+        correct sensor
+        
+        Call this function after checking the next 
+        section is free
+    */
+    void setNextSection()
+    {
+        for(Sensor &data : Map)
+        {
+            if(data.sensorTriggered && (int)data.nextSection == (int)m_section+1)
+            {
+                m_section = data.nextSection;
+            }
+        }
+    }
+
     float m_speed, m_accelerationSpeed, m_decelerationSpeed;
     byte m_motorL, m_motorR, m_speedPin;
     Direction m_direction;
     int m_maxSpeed;
     bool m_shouldDecelerate;
+    Section m_section;
+    Destination m_destination;
+    Section m_destinationSection;
 };

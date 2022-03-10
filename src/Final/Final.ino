@@ -1,7 +1,8 @@
 #include "train.h"
 
 
-Train train1(A, Wilton, 1);
+// Train train1(A, Wilton, 1);
+Train train1(9, 10, 11, Forward, 10, 25, A, Wilton);
 
 void setup() 
 {
