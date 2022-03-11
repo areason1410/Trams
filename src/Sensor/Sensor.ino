@@ -7,3 +7,23 @@ void loop() {
   // put your main code here, to run repeatedly:
 
 }
+class Sensor {
+  private:
+  bool sensorTriggered;
+
+  int pin;
+
+  Signal theSignal;
+
+
+
+  public:
+  Sensor()
+  {
+    sensorTriggered = 
+  }
+
+  void Signal (bool sensorTriggered) {
+    if (sensorTriggered == 
+  }
+}
