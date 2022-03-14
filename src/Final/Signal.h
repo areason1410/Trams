@@ -1,6 +1,11 @@
 #pragma once
 #include "Enums.h"
 
+const byte LEDLG = 5;
+const byte LEDLR = 6;
+
+const byte LEDRG = 7;
+const byte LEDRR = 8;
 
 class Signal 
 {
@@ -9,19 +14,21 @@ class Signal
     int greenPin; 
     bool state; // 1 = green 0 = red
     Direction signalDirection;
+    Section section;
   
-    Signal(int redPin, int greenPin, Direction signalDirection) 
+    Signal(int redPin, int greenPin, Direction signalDirection, Section section) 
     {
       this->redPin = redPin;
       this->greenPin = greenPin;
       this->signalDirection = signalDirection;
+      this->section = section;
       state = 1;
       digitalWrite(greenPin, HIGH);
     }
     
-    void changeState()
+    void changeState(bool type)
     {
-      state = 1 - state;
+      state = type;
 
       if (state == 1) 
       {
@@ -40,3 +47,11 @@ class Signal
     }
   
 };
+
+
+Signal signalArray[2] = 
+{
+    Signal(LEDLG, LEDLR, Forward, B),
+    Signal(LEDRG, LEDRR, Forward, C)
+
+}
