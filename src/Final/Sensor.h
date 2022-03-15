@@ -54,4 +54,4 @@ Sensor sensorArray[2] =
 {
     Sensor(IRL1, signalArray[0]),
     Sensor(IRR1, signalArray[1])
-}
+};

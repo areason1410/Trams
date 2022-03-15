@@ -9,8 +9,8 @@ enum Section
 
 enum Direction 
 {
-  Forward,
-  Backward
+  Forward = 1,
+  Backward = -1
 };
 
 enum Destination
@@ -18,3 +18,9 @@ enum Destination
   Salisbury,
   Wilton
 };
+
+Section destinationSection(Destination destination)
+{
+    return (Section)((int)destination+1);
+}
+

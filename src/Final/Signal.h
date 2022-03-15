@@ -22,7 +22,7 @@ class Signal
       this->greenPin = greenPin;
       this->signalDirection = signalDirection;
       this->section = section;
-      state = 1;
+      this->state = 1;
       digitalWrite(greenPin, HIGH);
     }
     
@@ -33,7 +33,7 @@ class Signal
       if (state == 1) 
       {
         digitalWrite(redPin, HIGH);
-        digitalWrite(greenPin, LOW); 
+        digitalWrite(greenPin, LOW);
       } else if (state == 0);
       {
         digitalWrite(redPin, HIGH);
@@ -54,4 +54,10 @@ Signal signalArray[2] =
     Signal(LEDLG, LEDLR, Forward, B),
     Signal(LEDRG, LEDRR, Forward, C)
 
+};
+
+bool checkIfIsNextSection(Section currentSection, Signal signalToCompare)
+{
+    return (int)signalToCompare.section == (int)currentSection+1*(int)signalToCompare.signalDirection;
 }
+

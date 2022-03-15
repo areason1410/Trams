@@ -14,7 +14,7 @@ public:
   Section currentSection;
   Section endSection;
 
-  Train(int leftMotorPin, int rightMotorPin, int speedPin, Direction trainDirection, Section startSection, Section endSection) 
+  Train(int leftMotorPin, int rightMotorPin, int speedPin, Direction trainDirection, Section startSection, Section endSection)
   {
     this->leftMotorPin = leftMotorPin;
     this->rightMotorPin = rightMotorPin;
@@ -24,6 +24,13 @@ public:
     this->endSection = endSection;
     digitalWrite(leftMotorPin, HIGH);
     digitalWrite(rightMotorPin, LOW);
+    for(Sensor &sensor : sensorArray)
+    {
+      if(sensor.theSignal.section == checkIfIsNextSection(currentSection, sensor.theSignal))
+      {
+        nextSensor = sensor;
+      }
+    }
   }
 
   void changeDirection() 
@@ -53,19 +60,26 @@ public:
 
   void update()
   {
-      if(currentSection == endSection) return;
-      
-      for(Sensor &sensor : sensorArray)
-      {
-          if(sensor.theSignal.section == (Section)((int)this->currentSection+1) && sensor.theSignal.getState() != 1)
-          {
-              trainStop();
-          }
-          else
-          {
-              start();
-          }
-      }
+    
+    if(currentSection == endSection) return;
+
+    if(nextSensor.theSignal.state == 0)
+    {
+
+    }
 
   }
+
+  private:
+    Sensor nextSensor;
+    bool nextSectionIsFree()
+    {
+      if(nextSensor.theSignal.state == 1)
+      {
+          return true;
+      }
+      
+      return false;
+    }
+
  };
