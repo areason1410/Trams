@@ -15,7 +15,15 @@ class Signal
     bool state; // 1 = green 0 = red
     Direction signalDirection;
     Section section;
-  
+
+    /**
+     * @brief Construct a new Signal object
+     * 
+     * @param redPin Pin for red LED
+     * @param greenPin Pin for green LED
+     * @param signalDirection Direction of the signal
+     * @param section The section the signal is indicating for
+     */
     Signal(int redPin, int greenPin, Direction signalDirection, Section section) 
     {
       this->redPin = redPin;
@@ -26,6 +34,11 @@ class Signal
       digitalWrite(greenPin, HIGH);
     }
     
+    /**
+     * @brief Changes the signal to be red or green
+     * 
+     * @param type 1 = green 0 = Red
+     */
     void changeState(bool type)
     {
       state = type;
@@ -41,6 +54,11 @@ class Signal
       }
     }
 
+    /**
+     * @brief Get the state of the signal
+     * 
+     * @return state
+     */
     bool getState()
     {
       return state;
@@ -48,7 +66,10 @@ class Signal
   
 };
 
-
+/**
+ * @brief Array of all our signals
+ * 
+ */
 Signal signalArray[2] = 
 {
     Signal(LEDLG, LEDLR, Forward, B),
@@ -56,6 +77,13 @@ Signal signalArray[2] =
 
 };
 
+/**
+ * @brief Helper function to check for which signal is next
+ * 
+ * @param currentSection Current section of the train
+ * @param signalToCompare Signal to compare
+ * @return bool
+ */
 bool checkIfIsNextSection(Section currentSection, Signal signalToCompare)
 {
     return (int)signalToCompare.section == (int)currentSection+1*(int)signalToCompare.signalDirection;
