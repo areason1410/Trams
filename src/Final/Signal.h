@@ -24,7 +24,7 @@ class Signal
      * @param signalDirection Direction of the signal
      * @param section The section the signal is indicating for
      */
-    Signal(int redPin, int greenPin, Direction signalDirection, Section section) 
+    Signal(int greenPin, int redPin, Direction signalDirection, Section section) 
     {
       this->redPin = redPin;
       this->greenPin = greenPin;
@@ -42,13 +42,16 @@ class Signal
     void changeState(bool type)
     {
       state = type;
-
+      //Serial.println(state);
       if (state == 1) 
       {
-        digitalWrite(redPin, HIGH);
-        digitalWrite(greenPin, LOW);
-      } else if (state == 0);
+        Serial.println(state);
+        // digitalWrite(redPin, LOW);
+        // digitalWrite(greenPin, HIGH);
+      } 
+      else
       {
+        Serial.println(state);
         digitalWrite(redPin, HIGH);
         digitalWrite(greenPin, LOW);
       }

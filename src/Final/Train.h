@@ -2,6 +2,10 @@
 #include "Enums.h"
 #include "Sensor.h"
 
+byte motorLeft = 9;
+byte motorRight = 10;
+byte speedPin = 11;
+
 class Train {
 public:
   byte currentSpeed;
@@ -88,12 +92,17 @@ public:
    */
   void update()
   {
+    // Serial.println("Test12");
     
     if(currentSection == endSection)
     {
+      Serial.println("Test");
       trainStop();
       return;
     } 
+    Serial.println("A");
+    Serial.println(nextSensor->state);
+    Serial.println("A");
 
     if(nextSectionIsFree() == true)
     {
@@ -114,7 +123,7 @@ public:
      */
     bool nextSectionIsFree()
     {
-      if(nextSensor->theSignal->state == 1)
+      if(nextSensor->theSignal->getState() == 1)
       {
           return true;
       }
@@ -129,8 +138,14 @@ public:
      */
     void updateSection()
     {
-      if(nextSensor->state == 1 && nextSensor->index < sizeof(sensorArray)/sizeof(Sensor))
+      // Serial.println("xd");
+      if(nextSensor->state == 0)
       {
+        for(int i = 0; i < 100; i++)
+        {
+        Serial.println("lmfaoo");
+
+        }
         currentSection = nextSensor->theSignal->section;
         nextSensor = &sensorArray[nextSensor->index+1];
       }

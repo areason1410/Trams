@@ -2,8 +2,8 @@
 #include "Signal.h"
 
 
-const byte IRL1 = 12;
-const byte IRL2 = 2;
+const byte IRL1 = 2;
+const byte IRL2 = 12;
 const byte IRR1 = 3;
 const byte IRR2 = 4;
 
@@ -40,7 +40,7 @@ class Sensor
        */
       bool readState() 
       {
-        this->state = 1 - digitalRead(this->pin);
+        this->state = digitalRead(this->pin);
         return this->state;
       } 
 
@@ -61,14 +61,14 @@ class Sensor
       void update()
       {
           readState();
-          if(state == 1)
+          if(state == 0)
           {
               theSignal->changeState(0);
           }
-          else
-          {
-              theSignal->changeState(1);
-          }
+        //   else
+        //   {
+        //       theSignal->changeState(1);
+        //   }
       }
 
 };
