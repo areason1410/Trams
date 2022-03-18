@@ -24,11 +24,11 @@ class Sensor
        * @param theSignalIn Signal that is "paired" with the sensor
        * @param index Index in the sensor array (Just for saving computing time)
        */
-      Sensor(int pin, Signal theSignalIn, int index)
+      Sensor(int pin, Signal* theSignalIn, int index)
       {
         this->pin = pin;
-        this->state = false;
-        this->theSignal = &theSignalIn;
+        this->state = true;
+        this->theSignal = theSignalIn;
         this->index = index;
         pinMode(this->pin, INPUT);
       }
@@ -41,6 +41,7 @@ class Sensor
       bool readState() 
       {
         this->state = digitalRead(this->pin);
+        // Serial.println(state);
         return this->state;
       } 
 
@@ -60,15 +61,30 @@ class Sensor
        */
       void update()
       {
+          delayMicroseconds(10);
+          // Serial.println(Serial.println((int)theSignal->section));
+                  // Serial.println(index);
+        // Serial.println((int)theSignal->section);
+
           readState();
+          delayMicroseconds(10);
+          // Serial.pri ntln(state);
           if(state == 0)
           {
+            // Serial.println("loll");
               theSignal->changeState(0);
           }
         //   else
         //   {
         //       theSignal->changeState(1);
         //   }
+      }
+
+      bool getState()
+      {
+        delayMicroseconds(10);
+        // Serial.println(state);
+        return state;
       }
 
 };
@@ -79,6 +95,9 @@ class Sensor
  */
 Sensor sensorArray[2] =
 {
-    Sensor(IRL1, signalArray[0], 0),
-    Sensor(IRR1, signalArray[1], 1)
+    Sensor(IRL1, &signalArray[0], 0),
+    Sensor(IRR1, &signalArray[1], 1),
+    // Sensor(IRL2, &signalArray[2], 2),
+    // Sensor(IRR2, &signalArray[3], 3)
+
 };

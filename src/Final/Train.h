@@ -27,13 +27,13 @@ public:
    * @param startSection Where the train starts
    * @param destination Where the train ends
    */
-  Train(int leftMotorPin, int rightMotorPin, int speedPin, Direction trainDirection, Section startSection, Destination destination)
+  Train(int leftMotorPin, int rightMotorPin, int speedPin, Direction trainDirection, Destination startLocation, Destination destination)
   {
     this->leftMotorPin = leftMotorPin;
     this->rightMotorPin = rightMotorPin;
     this->speedPin = speedPin;
     this->trainDirection = trainDirection;
-    this->currentSection = startSection;
+    this->currentSection = destinationSection(startLocation);
     this->endSection = destinationSection(destination);
     digitalWrite(leftMotorPin, HIGH);
     digitalWrite(rightMotorPin, LOW);
@@ -54,13 +54,13 @@ public:
   void changeDirection() 
   {
     
-    if (digitalRead(leftMotorPin) == HIGH)
+    if (trainDirection == Forward)
     {
       digitalWrite(leftMotorPin, LOW);
       digitalWrite(rightMotorPin, HIGH);
       trainDirection = Backward;
     }
-    else if (digitalRead(leftMotorPin) == LOW);
+    else;
     {
       digitalWrite(leftMotorPin, HIGH);
       digitalWrite(rightMotorPin, LOW);
@@ -93,18 +93,25 @@ public:
   void update()
   {
     // Serial.println("Test12");
+    delayMicroseconds(1);
+
+    // Serial.println((int)currentSection);
+    // Serial.println((int)endSection);
+        // Serial.println((int)currentSection);
     
     if(currentSection == endSection)
     {
       Serial.println("Test");
       trainStop();
+      // endSection = A;
+      // changeDirection();
       return;
     } 
-    Serial.println("A");
-    Serial.println(nextSensor->state);
-    Serial.println("A");
+    // Serial.println("A");
+    // Serial.println(nextSensor->state);
+    // Serial.println("A");
 
-    if(nextSectionIsFree() == true)
+    if(nextSectionIsFree() == false)
     {
       updateSection();
       return;
@@ -123,10 +130,13 @@ public:
      */
     bool nextSectionIsFree()
     {
+      delayMicroseconds(1);
       if(nextSensor->theSignal->getState() == 1)
       {
+          // Serial.println("asdf");
           return true;
       }
+      // Serial.println("asdf1231");
       
       return false;
     }
@@ -138,15 +148,24 @@ public:
      */
     void updateSection()
     {
-      // Serial.println("xd");
-      if(nextSensor->state == 0)
+        delayMicroseconds(1);
+        Serial.println(nextSensor->state);
+      if(nextSensor->state == 1)
       {
-        for(int i = 0; i < 100; i++)
-        {
-        Serial.println("lmfaoo");
+        // Serial.println("testtyy");
+        
+      }
+      else
+      {
+        // Serial.println("test");
 
-        }
+        // for(int i = 0; i < 100; i++)
+        // {
+        // Serial.println("lmfaoo");
+
+        // }
         currentSection = nextSensor->theSignal->section;
+
         nextSensor = &sensorArray[nextSensor->index+1];
       }
     }

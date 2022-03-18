@@ -1,6 +1,6 @@
 #include "Train.h"
 
-Train train1(9, 10, 11, Forward, A, Wilton);
+Train train1(9, 10, 11, Forward, Salisbury, Wilton);
 
 
 void setup() 
