@@ -43,13 +43,12 @@ class Signal
     void changeState(bool type)
     {
       state = type;
-      //Serial.println(state);
+
       if (state == 1) 
       {
-        // Serial.println(state);
         delayMicroseconds(1);
-        // digitalWrite(redPin, LOW);
-        // digitalWrite(greenPin, HIGH);
+        digitalWrite(redPin, LOW);
+        digitalWrite(greenPin, HIGH);
       } 
       else
       {

@@ -1,7 +1,6 @@
 #include "Train.h"
 
-Train train1(9, 10, 11, Forward, Salisbury, Wilton);
-
+Train* train1;
 
 void setup() 
 {
@@ -17,7 +16,9 @@ void setup()
     pinMode(motorRight, OUTPUT);
     pinMode(speedPin, OUTPUT);
     Serial.begin(9600);
+    train1 = new Train(9, 10, 11, Forward, Salisbury, Wilton);
 }
+
 
 void loop() 
 {
@@ -26,5 +27,5 @@ void loop()
         sensor.update();
     }
 
-    train1.update();
+    train1->update();
 }

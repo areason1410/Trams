@@ -37,13 +37,30 @@ public:
     this->endSection = destinationSection(destination);
     digitalWrite(leftMotorPin, HIGH);
     digitalWrite(rightMotorPin, LOW);
-    for(Sensor &sensor : sensorArray)
+
+    if(destination == Wilton)
     {
-      if(sensor.theSignal->section == checkIfIsNextSection(currentSection, *sensor.theSignal))
-      {
-        nextSensor = &sensor;
-      }
+      nextSensor = &sensorArray[0];
     }
+    else
+    {
+      nextSensor = &sensorArray[1];
+    }
+    // nextSensor = &sensorArray[0];
+    // for(Sensor &sensor : sensorArray)
+    // {
+    //   delayMicroseconds(10);
+    //     Serial.println("LOLLY");
+
+    //   if(sensor.theSignal->section == checkIfIsNextSection(currentSection, *sensor.theSignal))
+    //   {
+    //     Serial.println("LOL");
+    //     // Serial.println(sensor.getState());
+    //     nextSensor = &sensor;
+    //     // Serial.println(nextSensor->getState());
+
+    //   }
+    // }
     start();
   }
 
@@ -92,24 +109,19 @@ public:
    */
   void update()
   {
-    // Serial.println("Test12");
     delayMicroseconds(1);
 
-    // Serial.println((int)currentSection);
-    // Serial.println((int)endSection);
-        // Serial.println((int)currentSection);
     
     if(currentSection == endSection)
     {
       Serial.println("Test");
+      delay(750);
       trainStop();
       // endSection = A;
       // changeDirection();
       return;
     } 
-    // Serial.println("A");
-    // Serial.println(nextSensor->state);
-    // Serial.println("A");
+
 
     if(nextSectionIsFree() == false)
     {
@@ -133,10 +145,8 @@ public:
       delayMicroseconds(1);
       if(nextSensor->theSignal->getState() == 1)
       {
-          // Serial.println("asdf");
           return true;
       }
-      // Serial.println("asdf1231");
       
       return false;
     }
@@ -149,21 +159,12 @@ public:
     void updateSection()
     {
         delayMicroseconds(1);
-        Serial.println(nextSensor->state);
-      if(nextSensor->state == 1)
+      if(nextSensor->getState() == 1)
       {
-        // Serial.println("testtyy");
         
       }
       else
       {
-        // Serial.println("test");
-
-        // for(int i = 0; i < 100; i++)
-        // {
-        // Serial.println("lmfaoo");
-
-        // }
         currentSection = nextSensor->theSignal->section;
 
         nextSensor = &sensorArray[nextSensor->index+1];

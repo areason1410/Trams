@@ -41,7 +41,6 @@ class Sensor
       bool readState() 
       {
         this->state = digitalRead(this->pin);
-        // Serial.println(state);
         return this->state;
       } 
 
@@ -62,16 +61,11 @@ class Sensor
       void update()
       {
           delayMicroseconds(10);
-          // Serial.println(Serial.println((int)theSignal->section));
-                  // Serial.println(index);
-        // Serial.println((int)theSignal->section);
 
           readState();
           delayMicroseconds(10);
-          // Serial.pri ntln(state);
           if(state == 0)
           {
-            // Serial.println("loll");
               theSignal->changeState(0);
           }
         //   else
