@@ -9,13 +9,14 @@ const byte IRR2 = 4;
 
 byte IRArray[4] = {IRL1, IRL2, IRR1, IRR2};
 
-class Sensor 
+class StationSensor
 {
     public:
       bool state;
       int pin;
       int index;
-      Signal* theSignal = nullptr;
+      Direction direction;
+      // Signal* theSignal = nullptr;
 
       /**
        * @brief Construct a new Sensor object
@@ -24,11 +25,11 @@ class Sensor
        * @param theSignalIn Signal that is "paired" with the sensor
        * @param index Index in the sensor array (Just for saving computing time)
        */
-      Sensor(int pin, Signal* theSignalIn, int index)
+      StationSensor(int pin, int index)
       {
         this->pin = pin;
         this->state = true;
-        this->theSignal = theSignalIn;
+        // this->theSignal = theSignalIn;
         this->index = index;
         pinMode(this->pin, INPUT);
       }
@@ -51,23 +52,24 @@ class Sensor
        */
       Direction getDirection()
       {
-          return theSignal->signalDirection;
+          return direction;
+          // return theSignal->signalDirection;
       }
 
       /**
        * @brief Update function to be called each iteration in the main loop
        * 
        */
-      void update()
+      virtual void update()
       {
           delayMicroseconds(10);
 
           readState();
           delayMicroseconds(10);
-          if(state == 0)
-          {
-              theSignal->changeState(0);
-          }
+          // if(state == 0)
+          // {
+          //     theSignal->changeState(0);
+          // }
         //   else
         //   {
         //       theSignal->changeState(1);
@@ -83,6 +85,30 @@ class Sensor
 
 };
 
+
+class Sensor: public StationSensor
+{
+  public:
+    Signal* theSignal = nullptr;
+
+    Sensor(int pin, Signal* theSignalIn, int index): StationSensor(pin, index)
+    {
+      this->theSignal = theSignalIn;
+      pinMode(this->pin, INPUT);
+    }
+
+    void update()
+    {
+      delayMicroseconds(10);
+
+      readState();
+      delayMicroseconds(10);
+      if(state == 0)
+      {
+          theSignal->changeState(0);
+      }
+    }
+};
 /**
  * @brief Array of sensors
  * 
