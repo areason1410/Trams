@@ -183,5 +183,4 @@ public:
     void decelerate() {
       currentSpeed-=0.1;  
     }
-
  };
