@@ -103,6 +103,7 @@ public:
     digitalWrite(speedPin, 0);
   }
 
+  
   /**
    * @brief Update function to be called each iteration in the main loop
    * 
@@ -130,6 +131,12 @@ public:
     }
 
   analogWrite(pin, (int)currentSpeed)
+
+    if(accelerate = true)
+    {
+      updateCurrentSpeed()
+      return,
+    }
 
   }
 
@@ -173,14 +180,37 @@ public:
       }
     }
 
+    void updateCurrentSpeed()
+    {
+      delayMicroseconds(1);
+      if(currentSpeed = 0)
+      
+    }
+
     void accelerate() {
       currentSpeed+=0.1; 
 
+      delay(3000);
       if speed <= 0 
-      then accelerate = true 
+      then accelerate = true
+      if (speed > 254)
+      {
+        accelerate = false
+      }
+      analogWrite(pin, (int)currentSpeed);
     }
 
     void decelerate() {
-      currentSpeed-=0.1;  
+      currentSpeed-=0.1; 
+
+       if (speed = 255)
+       {
+          accelerate = false
+          decelerate = true
+       }
+       analogWrite(pin, (int)currentSpeed)
+       }
+
     }
+
  };
