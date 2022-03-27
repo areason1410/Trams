@@ -129,6 +129,8 @@ public:
       return;
     }
 
+  analogWrite(pin, (int)currentSpeed)
+
   }
 
   private:
@@ -169,6 +171,17 @@ public:
 
         nextSensor = &sensorArray[nextSensor->index+1];
       }
+    }
+
+    void accelerate() {
+      currentSpeed+=0.1; 
+
+      if speed <= 0 
+      then accelerate = true 
+    }
+
+    void decelerate() {
+      currentSpeed-=0.1;  
     }
 
  };
