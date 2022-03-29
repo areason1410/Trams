@@ -22,6 +22,8 @@ enum Direction
   Backward = -1
 };
 
+
+#define DestinationCount 3
 /**
  * @brief Destination possibilites for the train
  * 
@@ -29,6 +31,7 @@ enum Direction
 enum Destination
 {
   Salisbury,
+  Bemerton,
   Wilton
 };
 

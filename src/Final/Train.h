@@ -6,6 +6,23 @@ byte motorLeft = 9;
 byte motorRight = 10;
 byte speedPin = 11;
 
+struct StationStructure { 
+   Destination destination; 
+   struct StationStructure *previousStation; 
+   struct StationStructure *nextStation; 
+}; 
+
+
+
+// void display() { 
+//    struct StationStructure* ptr;
+//    ptr = head;  
+//    while(ptr != NULL) { 
+//       cout<< ptr->destination <<" "; 
+//       ptr = ptr->nextStation; 
+//   } 
+// } 
+
 class Train {
 public:
   byte currentSpeed;
@@ -16,6 +33,7 @@ public:
   Direction trainDirection;
   Section currentSection;
   Section endSection;
+  StationStructure* trainDestinations = NULL;
 
   /**
    * @brief Construct a new Train object
@@ -61,7 +79,58 @@ public:
 
     //   }
     // }
-    start();
+  }
+
+  /**
+   * @brief Construct a new Train object (Overloaded)
+   * 
+   * @param leftMotorPin 
+   * @param rightMotorPin 
+   * @param speedPin 
+   * @param trainDirection 
+   * @param startLocation 
+   * @param destinations 
+   */
+  Train(int leftMotorPin, int rightMotorPin, int speedPin, Direction trainDirection, Destination startLocation, Destination destinations[])
+  {
+    this->leftMotorPin = leftMotorPin;
+    this->rightMotorPin = rightMotorPin;
+    this->speedPin = speedPin;
+    this->trainDirection = trainDirection;
+    this->currentSection = destinationSection(startLocation);
+    int numberOfStops = sizeof(destinations)/sizeof(Destination);
+    for(int i = 0; i < numberOfStops; i++)
+    {
+      addStop(destinations[i]);
+    }
+
+    this->endSection = destinationSection(destinations[numberOfStops]);
+    digitalWrite(leftMotorPin, HIGH);
+    digitalWrite(rightMotorPin, LOW);
+
+    // if(destination == Wilton)
+    // {
+    //   nextSensor = &sensorArray[0];
+    // }
+    // else
+    // {
+    //   nextSensor = &sensorArray[1];
+    // }
+    // nextSensor = &sensorArray[0];
+    // for(Sensor &sensor : sensorArray)
+    // {
+    //   delayMicroseconds(10);
+    //     Serial.println("LOLLY");
+
+    //   if(sensor.theSignal->section == checkIfIsNextSection(currentSection, *sensor.theSignal))
+    //   {
+    //     Serial.println("LOL");
+    //     // Serial.println(sensor.getState());
+    //     nextSensor = &sensor;
+    //     // Serial.println(nextSensor->getState());
+
+    //   }
+    // }
   }
 
   /**
@@ -86,15 +155,6 @@ public:
   }
 
   /**
-   * @brief Start the train
-   * 
-   */
-  void start() 
-  {
-    digitalWrite(speedPin, 255);
-  }
-
-  /**
    * @brief Stop the train
    * 
    */
@@ -103,6 +163,7 @@ public:
     digitalWrite(speedPin, 0);
   }
 
+  
   /**
    * @brief Update function to be called each iteration in the main loop
    * 
@@ -110,17 +171,43 @@ public:
   void update()
   {
     delayMicroseconds(1);
+    if(trainDestinations != NULL)
+    {
+      StationStructure* ptr;
+      ptr = trainDestinations;
+      while(ptr != NULL)
+      {
+        if(destinationSection(ptr->destination) == currentSection)
+        {
+          decelerate();
+          if(currentSpeed <1)
+          {
+            delay(5000);
+            
+          }
 
-    
-    if(currentSection == endSection)
+        }
+      }
+    }
+    else if(currentSection == endSection)
     {
       Serial.println("Test");
-      delay(750);
-      trainStop();
+      decelerate();
+      if (currentSpeed < 1)
+      {
+        delay(5000);
+        changeDirection();
+        endSection = A; 
+      }
       // endSection = A;
       // changeDirection();
+      
       return;
     } 
+    else
+    {
+      accelerate();
+    }
 
 
     if(nextSectionIsFree() == false)
@@ -128,6 +215,9 @@ public:
       updateSection();
       return;
     }
+
+    
+    
 
   }
 
@@ -171,4 +261,71 @@ public:
       }
     }
 
+    void accelerate() 
+    {
+      if(currentSpeed < 255)
+      {
+        currentSpeed += 0.1;
+        analogWrite(speedPin, (int)currentSpeed);
+      }
+      
+//      if speed <= 0 
+//      then accelerate = true
+//      if (speed > 254)
+//      {
+//        accelerate = false
+//      }
+
+    }
+
+    void decelerate() 
+    {
+      
+      if (currentSpeed > 0)
+      {
+        currentSpeed -= 0.1;
+        analogWrite(speedPin, (int)currentSpeed);
+      }
+       
+
+//       if (speed = 255)
+//       {
+//          accelerate = false
+//          decelerate = true
+//       }
+//       analogWrite(pin, (int)currentSpeed)
+//       }
+
+    }
+
+
+  void addStop(Destination stop) 
+  { 
+    struct StationStructure* newnode = new StationStructure; 
+    StationStructure* last = trainDestinations;
+
+    newnode->destination = stop;
+    newnode->nextStation = NULL;
+
+    if(trainDestinations == NULL)
+    {
+      trainDestinations = newnode;
+      return;
+    }
+    
+    while(last->nextStation != NULL)
+    {
+        last = last->nextStation;
+        
+    }
+
+    newnode->previousStation = last;
+    last->nextStation = newnode; 
+    
+  }   
  };
+
+
+
+
+
