@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Arduino",
-            "compilerPath": "/home/hsanderson/Downloads/arduino-1.8.19/hardware/tools/avr/bin/avr-g++",
+            "compilerPath": "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/tools/avr/bin/avr-g++",
             "compilerArgs": [
                 "-std=gnu++11",
                 "-fpermissive",
@@ -15,20 +15,20 @@
             ],
             "intelliSenseMode": "gcc-x64",
             "includePath": [
-                "/home/hsanderson/Downloads/arduino-1.8.19/hardware/arduino/avr/cores/arduino",
-                "/home/hsanderson/Downloads/arduino-1.8.19/hardware/arduino/avr/variants/mega",
-                "/home/hsanderson/Downloads/arduino-1.8.19/hardware/tools/avr/lib/gcc/avr/7.3.0/include",
-                "/home/hsanderson/Downloads/arduino-1.8.19/hardware/tools/avr/lib/gcc/avr/7.3.0/include-fixed",
-                "/home/hsanderson/Downloads/arduino-1.8.19/hardware/tools/avr/avr/include"
+                "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/arduino/avr/cores/arduino",
+                "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/arduino/avr/variants/mega",
+                "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/tools/avr/lib/gcc/avr/7.3.0/include",
+                "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/tools/avr/lib/gcc/avr/7.3.0/include-fixed",
+                "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/tools/avr/avr/include"
             ],
             "forcedInclude": [
-                "/home/hsanderson/Downloads/arduino-1.8.19/hardware/arduino/avr/cores/arduino/Arduino.h"
+                "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/arduino/avr/cores/arduino/Arduino.h"
             ],
             "cStandard": "c11",
             "cppStandard": "c++11",
             "defines": [
                 "F_CPU=16000000L",
-                "ARDUINO=10819",
+                "ARDUINO=10816",
                 "ARDUINO_AVR_MEGA2560",
                 "ARDUINO_ARCH_AVR",
                 "__DBL_MIN_EXP__=(-125)",
