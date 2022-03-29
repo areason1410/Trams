@@ -66,20 +66,11 @@ class StationSensor
 
           readState();
           delayMicroseconds(10);
-          // if(state == 0)
-          // {
-          //     theSignal->changeState(0);
-          // }
-        //   else
-        //   {
-        //       theSignal->changeState(1);
-        //   }
       }
 
       bool getState()
       {
         delayMicroseconds(10);
-        // Serial.println(state);
         return state;
       }
 
@@ -109,6 +100,8 @@ class Sensor: public StationSensor
       }
     }
 };
+
+
 /**
  * @brief Array of sensors
  * 
