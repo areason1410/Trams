@@ -25,12 +25,13 @@ class StationSensor
        * @param theSignalIn Signal that is "paired" with the sensor
        * @param index Index in the sensor array (Just for saving computing time)
        */
-      StationSensor(int pin, int index)
+      StationSensor(int pin, int index, Direction direction)
       {
         this->pin = pin;
         this->state = true;
         // this->theSignal = theSignalIn;
         this->index = index;
+        this->direction = direction;
         pinMode(this->pin, INPUT);
       }
 
@@ -82,7 +83,7 @@ class Sensor: public StationSensor
   public:
     Signal* theSignal = nullptr;
 
-    Sensor(int pin, Signal* theSignalIn, int index): StationSensor(pin, index)
+    Sensor(int pin, Signal* theSignalIn, int index, Direction direction): StationSensor(pin, index, direction)
     {
       this->theSignal = theSignalIn;
       pinMode(this->pin, INPUT);
@@ -108,9 +109,17 @@ class Sensor: public StationSensor
  */
 Sensor sensorArray[2] =
 {
-    Sensor(IRL1, &signalArray[0], 0),
-    Sensor(IRR1, &signalArray[1], 1),
+    Sensor(IRL1, &signalArray[0], 0, Forward),
+    Sensor(IRR1, &signalArray[1], 1, Forward),
     // Sensor(IRL2, &signalArray[2], 2),
     // Sensor(IRR2, &signalArray[3], 3)
 
+};
+
+StationSensor stationSensorArray[4]
+{
+  StationSensor(1, 0, Backward),
+  StationSensor(1, 1, Forward),
+  StationSensor(1, 2, Backward),
+  StationSensor(1, 3, Forward),
 };

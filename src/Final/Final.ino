@@ -16,7 +16,7 @@ void setup()
     pinMode(motorRight, OUTPUT);
     pinMode(speedPin, OUTPUT);
     Serial.begin(9600);
-    train1 = new Train(9, 10, 11, Forward, Salisbury, Wilton);
+    train1 = new Train(9, 10, 11, Forward, new Destination[Salisbury, Bemerton, Wilton]);
 }
 
 
