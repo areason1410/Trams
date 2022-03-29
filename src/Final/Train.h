@@ -116,12 +116,22 @@ public:
     if(currentSection == endSection)
     {
       Serial.println("Test");
-      delay(750);
-      trainStop();
+      decelerate();
+      if (currentSpeed < 1)
+      {
+        delay(5000);
+        changeDirection();
+        endSection = A; 
+      }
       // endSection = A;
       // changeDirection();
+      
       return;
     } 
+    else
+    {
+      accelerate();
+    }
 
 
     if(nextSectionIsFree() == false)
@@ -130,13 +140,8 @@ public:
       return;
     }
 
-  analogWrite(pin, (int)currentSpeed)
-
-    if(accelerate = true)
-    {
-      updateCurrentSpeed()
-      return,
-    }
+    
+    
 
   }
 
@@ -180,36 +185,38 @@ public:
       }
     }
 
-    void updateCurrentSpeed()
-    {
-      delayMicroseconds(1);
-      if(currentSpeed = 0)
-      
-    }
-
     void accelerate() {
-      currentSpeed+=0.1; 
-
-      delay(3000);
-      if speed <= 0 
-      then accelerate = true
-      if (speed > 254)
+      if(currentSpeed < 255)
       {
-        accelerate = false
+        currentSpeed += 0.1;
+        analogWrite(pin, (int)currentSpeed);
       }
-      analogWrite(pin, (int)currentSpeed);
+      
+//      if speed <= 0 
+//      then accelerate = true
+//      if (speed > 254)
+//      {
+//        accelerate = false
+//      }
+
     }
 
     void decelerate() {
-      currentSpeed-=0.1; 
+      if (currentSpeed > 0)
+      {
+        currentSpeed -= 0.1;
+        analogWrite(pin, (int)currentSpeed);
+      }
 
-       if (speed = 255)
-       {
-          accelerate = false
-          decelerate = true
-       }
-       analogWrite(pin, (int)currentSpeed)
-       }
+       
+
+//       if (speed = 255)
+//       {
+//          accelerate = false
+//          decelerate = true
+//       }
+//       analogWrite(pin, (int)currentSpeed)
+//       }
 
     }
 
