@@ -26,7 +26,7 @@ class Signal
      */
     Signal(int greenPin, int redPin, Direction signalDirection, Section section) 
     {
-      delayMicroseconds(1);
+      delay(1);
       this->redPin = redPin;
       this->greenPin = greenPin;
       this->signalDirection = signalDirection;
@@ -46,14 +46,14 @@ class Signal
 
       if (state == 1) 
       {
-        delayMicroseconds(1);
+        delay(1);
         digitalWrite(redPin, LOW);
         digitalWrite(greenPin, HIGH);
       } 
       else
       {
         // Serial.println(state);
-        delayMicroseconds(1);
+        delay(1);
         digitalWrite(redPin, HIGH);
         digitalWrite(greenPin, LOW);
       }
@@ -75,10 +75,16 @@ class Signal
  * @brief Array of all our signals
  * 
  */
-Signal signalArray[2] = 
+Signal signalArray[6] = 
 {
-    Signal(LEDLG, LEDLR, Forward, B),
-    Signal(LEDRG, LEDRR, Forward, C),
+    Signal(ALEDGreenForward, ALEDRedForward, Forward, A),
+    Signal(ALEDGreenBackward, ALEDRedBackward, Backward, A),
+    Signal(BLEDGreenForward, BLEDRedForward, Forward, B),
+    Signal(BLEDGreenBackward, BLEDRedBackward, Backward, B),
+    Signal(CLEDGreenForward, CLEDRedForward, Forward, C),
+    Signal(CLEDGreenBackward, CLEDRedBackward, Backward, C)
+    // Signal(LEDLG, LEDLR, Forward, B),
+    // Signal(LEDRG, LEDRR, Forward, C),
     // Signal(LEDRG, LEDRR, Backward, B),
     // Signal(LEDLG, LEDLR, Backward, A)
 
@@ -93,7 +99,8 @@ Signal signalArray[2] =
  */
 bool checkIfIsNextSection(Section currentSection, Signal signalToCompare)
 {
-  Serial.println(signalToCompare.greenPin);
-    return (int)signalToCompare.section == (int)currentSection+1*(int)signalToCompare.signalDirection;
+  delay(1);
+  //Serial.println(signalToCompare.greenPin);
+  return (int)signalToCompare.section == (int)currentSection+1*(int)signalToCompare.signalDirection;
 }
 

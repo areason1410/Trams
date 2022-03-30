@@ -22,9 +22,8 @@ public:
 
   Direction trainDirection;
   Section currentSection;
-  Section endSection;
   Station* nextStation = nullptr;
-  struct StationStructure* trainDestinations = NULL;
+  StationStructure* trainDestinations = NULL;
 
 
 
@@ -37,8 +36,9 @@ public:
    * @param trainDirection 
    * @param startLocation 
    * @param destinations 
+   * @param destinationCount
    */
-  Train(int leftMotorPin, int rightMotorPin, int speedPin, Direction trainDirection, Destination destinations[])
+  Train(int leftMotorPin, int rightMotorPin, int speedPin, Direction trainDirection, Destination* destinations, int destinationCount)
   {
     this->leftMotorPin = leftMotorPin;
     this->rightMotorPin = rightMotorPin;
@@ -46,15 +46,21 @@ public:
     this->trainDirection = trainDirection;
     this->currentSection = destinationSection(destinations[0]);
 
-    int numberOfStops = sizeof(destinations)/sizeof(Destination);
-
-    for(int i = 0; i < numberOfStops; i++)
+    for(int i = 0; i < destinationCount; i++)
     {
-      addStop(&stations[i]);
+      addStop(&stationArray[(int)destinations[i]]);
     }
 
-    this->endSection = destinationSection(destinations[numberOfStops]);
 
+    if(trainDirection == Forward)
+    {
+      nextSensor = &sensorArray[0];
+    }
+    else
+    {
+      nextSensor = &sensorArray[ARRSIZE(sensorArray)-1];
+    }
+    
     digitalWrite(leftMotorPin, HIGH);
     digitalWrite(rightMotorPin, LOW);
 
@@ -73,7 +79,7 @@ public:
       digitalWrite(rightMotorPin, HIGH);
       trainDirection = Backward;
     }
-    else;
+    else
     {
       digitalWrite(leftMotorPin, HIGH);
       digitalWrite(rightMotorPin, LOW);
@@ -97,14 +103,22 @@ public:
    */
   void update()
   {
-    delayMicroseconds(1);
-    bool decelerating = false;
-    if(currentSection == endSection)
-    {
-      decelerating = true;
-      decelerate();
+    delay(1);
 
+
+    if(nextStation->stationSection == currentSection)
+    {
+      decelerate();
+      if(nextStation->isOccupied == true)
+      {
+        trainStop();
+        delay(5000);
+        nextStation->trainCanLeave = true;
+        accelerate();
+        updateStation();
+      }
     }
+     
     // if(trainDestinations != NULL)
     // {
     //   StationStructure* ptr;
@@ -166,8 +180,8 @@ public:
      */
     bool nextSectionIsFree()
     {
-      delayMicroseconds(1);
-      if(nextSensor->theSignal->getState() == 1)
+      delay(1);
+      if(nextSensor->theSignal->getState() == IRLOW)
       {
           return true;
       }
@@ -182,16 +196,28 @@ public:
      */
     void updateSection()
     {
-        delayMicroseconds(1);
-      if(nextSensor->getState() == 1)
+      delay(1);
+      if(nextSensor->getState() == IRLOW) 
       {
-        
+      }
+      else
+      {
+
+        setNextSection();
+      }
+    }
+
+    void setNextSection()
+    {
+      if(nextSensor->index+1 > ARRSIZE(sensorArray) || nextSensor->index == 0)
+      {
+        changeDirection();
+        return;
       }
       else
       {
         currentSection = nextSensor->theSignal->section;
-
-        nextSensor = &sensorArray[nextSensor->index+1];
+        nextSensor = &sensorArray[nextSensor->index+1*(int)trainDirection];
       }
     }
 
@@ -213,9 +239,8 @@ public:
     }
 
     void decelerate() 
-    {
-      
-      if (currentSpeed > 50)
+    {        nextSensor = &sensorArray[nextSensor->index+1*(int)trainDirection];
+
       {
         currentSpeed -= 0.1;
         analogWrite(speedPin, (int)currentSpeed);
@@ -235,7 +260,7 @@ public:
 
   void addStop(Station* stop) 
   { 
-    struct StationStructure* newnode = new StationStructure; 
+    StationStructure* newnode = new StationStructure; 
     StationStructure* last = trainDestinations;
 
     newnode->destination = stop;
@@ -257,6 +282,51 @@ public:
     last->nextStation = newnode; 
     
   }   
+
+  void updateStation()
+  {
+      StationStructure* ptr;
+      ptr = trainDestinations;
+      while(ptr != NULL)
+      {
+        if(ptr->destination == nextStation)
+        {
+          if(trainDirection == Forward && !shouldChangeDirection())
+          {
+            nextStation = ptr->nextStation->destination;
+
+          }
+          else if( trainDirection == Backward && !shouldChangeDirection())
+          {
+            nextStation = ptr->previousStation->destination;
+          }
+          else
+          {
+            changeDirection();
+            updateStation(); //cheeky recursion, i hope it doesnt kill us xd
+          }
+          ptr = NULL;
+        }
+        else
+        {
+          ptr = ptr->nextStation;
+        }
+      }
+  }
+
+  bool shouldChangeDirection()
+  {
+    if(trainDestinations->nextStation == NULL && trainDirection == Forward)
+    {
+      return true;
+    }
+    else if(trainDestinations->previousStation == NULL && trainDirection == Backward)
+    {
+      return true;
+    }
+
+    return false;
+  }
  };
 
 
@@ -295,7 +365,7 @@ public:
   //   // nextSensor = &sensorArray[0];
   //   // for(Sensor &sensor : sensorArray)
   //   // {
-  //   //   delayMicroseconds(10);
+  //   //   delay(10);
   //   //     Serial.println("LOLLY");
 
   //   //   if(sensor.theSignal->section == checkIfIsNextSection(currentSection, *sensor.theSignal))

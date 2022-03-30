@@ -8,6 +8,9 @@ public:
     StationSensor *leftSensor = nullptr, *rightSensor = nullptr;
     Destination stationLocation;
     Section stationSection;
+    bool isOccupied = false;
+    bool trainCanLeave = true;
+
     Station(StationSensor* ls, StationSensor* rs, Destination location)
     {
         leftSensor = ls;
@@ -20,13 +23,30 @@ public:
     {
         leftSensor->update();
         rightSensor->update();
+        if(isOccupied == false && trainDetected())
+        {
+            isOccupied = true;
+            trainCanLeave = false;
+        }
+        
+        if(trainCanLeave == true && isOccupied == true && trainDetected())
+        {
+            isOccupied = false;
+        }
     }
 
 private:
-    /* data */
+    bool trainDetected()
+    {
+        if(leftSensor->getState() == IRHIGH || rightSensor->getState() == IRHIGH)
+            return true;
+
+        else return false;
+    }
+
 };
 
-Station stations[3] =
+Station stationArray[3] =
 {
     Station(nullptr, &stationSensorArray[0], Salisbury),
     Station(&stationSensorArray[1], &stationSensorArray[2], Bemerton),

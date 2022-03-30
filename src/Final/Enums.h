@@ -1,6 +1,13 @@
 #pragma once
+#include "Pins.h"
+/**
+ * @brief Returns the size of an array
+ * 
+ */
+#define ARRSIZE(x) (sizeof(x) / sizeof((x)[0]))
 
 
+#define SECTIONCOUNT 3
 /**
  * @brief Enum for the sections on the track
  * 
@@ -23,7 +30,7 @@ enum Direction
 };
 
 
-#define DestinationCount 3
+#define DESTINATIONCOUNT 3
 /**
  * @brief Destination possibilites for the train
  * 

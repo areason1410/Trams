@@ -9,14 +9,15 @@ const byte IRR2 = 4;
 
 byte IRArray[4] = {IRL1, IRL2, IRR1, IRR2};
 
+#define IRHIGH 0
+#define IRLOW 1
+
 class StationSensor
 {
     public:
       bool state;
       int pin;
       int index;
-      Direction direction;
-      // Signal* theSignal = nullptr;
 
       /**
        * @brief Construct a new Sensor object
@@ -25,13 +26,11 @@ class StationSensor
        * @param theSignalIn Signal that is "paired" with the sensor
        * @param index Index in the sensor array (Just for saving computing time)
        */
-      StationSensor(int pin, int index, Direction direction)
+      StationSensor(int pin, int index)
       {
         this->pin = pin;
-        this->state = true;
-        // this->theSignal = theSignalIn;
+        this->state = IRLOW;
         this->index = index;
-        this->direction = direction;
         pinMode(this->pin, INPUT);
       }
 
@@ -46,16 +45,7 @@ class StationSensor
         return this->state;
       } 
 
-      /**
-       * @brief Get the direction the sensor is indicating for
-       * 
-       * @return Signal->signalDirection
-       */
-      Direction getDirection()
-      {
-          return direction;
-          // return theSignal->signalDirection;
-      }
+
 
       /**
        * @brief Update function to be called each iteration in the main loop
@@ -63,15 +53,15 @@ class StationSensor
        */
       virtual void update()
       {
-          delayMicroseconds(10);
+          delay(10);
 
           readState();
-          delayMicroseconds(10);
+          delay(10);
       }
 
       bool getState()
       {
-        delayMicroseconds(10);
+        delay(10);
         return state;
       }
 
@@ -82,24 +72,36 @@ class Sensor: public StationSensor
 {
   public:
     Signal* theSignal = nullptr;
+    Direction direction;
 
-    Sensor(int pin, Signal* theSignalIn, int index, Direction direction): StationSensor(pin, index, direction)
+    Sensor(int pin, Signal* theSignalIn, int index, Direction direction): StationSensor(pin, index)
     {
       this->theSignal = theSignalIn;
+      this->direction = direction;
       pinMode(this->pin, INPUT);
     }
 
     void update()
     {
-      delayMicroseconds(10);
+      delay(10);
 
       readState();
-      delayMicroseconds(10);
-      if(state == 0)
+      delay(10);
+      if(state == IRHIGH)
       {
           theSignal->changeState(0);
       }
     }
+
+      /**
+       * @brief Get the direction the sensor is indicating for
+       * 
+       * @return direction
+      */
+      Direction getDirection()
+      {
+          return direction;
+      }
 };
 
 
@@ -107,19 +109,21 @@ class Sensor: public StationSensor
  * @brief Array of sensors
  * 
  */
-Sensor sensorArray[2] =
+Sensor sensorArray[6] =
 {
-    Sensor(IRL1, &signalArray[0], 0, Forward),
-    Sensor(IRR1, &signalArray[1], 1, Forward),
-    // Sensor(IRL2, &signalArray[2], 2),
-    // Sensor(IRR2, &signalArray[3], 3)
+    Sensor(AIRLeft, &signalArray[0], 0, Forward),
+    Sensor(AIRRight, &signalArray[1], 1, Backward),
+    Sensor(BIRLeft, &signalArray[2], 2, Forward),
+    Sensor(BIRRight, &signalArray[3], 3, Backward),
+    Sensor(CIRLeft, &signalArray[4], 4, Forward),
+    Sensor(CIRRight, &signalArray[5], 5, Backward),
 
 };
 
 StationSensor stationSensorArray[4]
 {
-  StationSensor(1, 0, Backward),
-  StationSensor(1, 1, Forward),
-  StationSensor(1, 2, Backward),
-  StationSensor(1, 3, Forward),
+  StationSensor(SalisburyIRRight, 0),
+  StationSensor(BemertonIRLeft, 1),
+  StationSensor(BemertonIRRight, 2),
+  StationSensor(WiltonIRLeft, 3),
 };
