@@ -81,16 +81,7 @@ Signal signalArray[4] =
     Signal(BLEDGreenBackward, BLEDGreenBackward, Backward, B),
     Signal(ALEDGreenBackward, ALEDRedBackward, Backward, A),
     Signal(CLEDGreenForward, CLEDRedForward, Forward, C)
-    // Signal(ALEDGreenForward, ALEDRedForward, Forward, A),
-    // Signal(ALEDGreenBackward, ALEDRedBackward, Backward, A),
-    // Signal(BLEDGreenForward, BLEDRedForward, Forward, B),
-    // Signal(BLEDGreenBackward, BLEDRedBackward, Backward, B),
-    // Signal(CLEDGreenForward, CLEDRedForward, Forward, C),
-    // Signal(CLEDGreenBackward, CLEDRedBackward, Backward, C)
-    // Signal(LEDLG, LEDLR, Forward, B),
-    // Signal(LEDRG, LEDRR, Forward, C),
-    // Signal(LEDRG, LEDRR, Backward, B),
-    // Signal(LEDLG, LEDLR, Backward, A)
+
 
 };
 
@@ -104,7 +95,6 @@ Signal signalArray[4] =
 bool checkIfIsNextSection(Section currentSection, Signal signalToCompare)
 {
   delay(1);
-  //Serial.println(signalToCompare.greenPin);
   return (int)signalToCompare.section == (int)currentSection+1*(int)signalToCompare.signalDirection;
 }
 

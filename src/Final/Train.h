@@ -111,6 +111,7 @@ public:
       decelerate();
       if(nextStation->isOccupied == true)
       {
+        delay(1000);
         trainStop();
         delay(5000);
         nextStation->trainCanLeave = true;
@@ -118,54 +119,16 @@ public:
         updateStation();
       }
     }
-     
-    // if(trainDestinations != NULL)
-    // {
-    //   StationStructure* ptr;
-    //   ptr = trainDestinations;
-    //   while(ptr != NULL)
-    //   {
-    //     if(destinationSection(ptr->destination) == currentSection)
-    //     {
-    //       decelerate();
-    //       if(currentSpeed <1)
-    //       {
-    //         delay(5000);
-            
-    //       }
-
-    //     }
-    //   }
-    // }
-    // else if(currentSection == endSection)
-    // {
-    //   Serial.println("Test");
-    //   decelerate();
-    //   if (currentSpeed < 1)
-    //   {
-    //     delay(5000);
-    //     changeDirection();
-    //     endSection = A; 
-    //   }
-    //   // endSection = A;
-    //   // changeDirection();
-      
-    //   return;
-    // } 
-    // else
-    // {
-    //   accelerate();
-    // }
-
+    else
+    {
+      accelerate();
+    }
 
     if(nextSectionIsFree() == false)
     {
       updateSection();
       return;
     }
-
-    
-    
 
   }
 
@@ -216,6 +179,7 @@ public:
       else
       {
         currentSection = nextSensor->theSignal->section;
+        nextSensor->theSignal->changeState(1);
         nextSensor = &sensorArray[nextSensor->index+1*(int)trainDirection];
       }
     }
@@ -279,7 +243,7 @@ public:
             nextStation = ptr->nextStation->destination;
 
           }
-          else if( trainDirection == Backward && !shouldChangeDirection())
+          else if(trainDirection == Backward && !shouldChangeDirection())
           {
             nextStation = ptr->previousStation->destination;
           }

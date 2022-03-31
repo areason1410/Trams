@@ -12,8 +12,6 @@ const byte
     ALEDRedBackward = 24,
     ALEDGreenBackward = 25,
 
-
-
     BIRLeft = 5,
     BIRRight = 4,
     BLEDRedForward = 42,

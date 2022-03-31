@@ -1,14 +1,6 @@
 #pragma once
 #include "Signal.h"
 
-
-const byte IRL1 = 2;
-const byte IRL2 = 12;
-const byte IRR1 = 3;
-const byte IRR2 = 4;
-
-byte IRArray[4] = {IRL1, IRL2, IRR1, IRR2};
-
 #define IRHIGH 0
 #define IRLOW 1
 
