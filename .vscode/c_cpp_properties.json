@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Arduino",
-            "compilerPath": "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/tools/avr/bin/avr-g++",
+            "compilerPath": "/home/aaronreason/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/tools/avr/bin/avr-g++",
             "compilerArgs": [
                 "-std=gnu++11",
                 "-fpermissive",
@@ -15,14 +15,14 @@
             ],
             "intelliSenseMode": "gcc-x64",
             "includePath": [
-                "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/arduino/avr/cores/arduino",
-                "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/arduino/avr/variants/mega",
-                "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/tools/avr/lib/gcc/avr/7.3.0/include",
-                "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/tools/avr/lib/gcc/avr/7.3.0/include-fixed",
-                "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/tools/avr/avr/include"
+                "/home/aaronreason/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/arduino/avr/cores/arduino",
+                "/home/aaronreason/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/arduino/avr/variants/mega",
+                "/home/aaronreason/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/tools/avr/lib/gcc/avr/7.3.0/include",
+                "/home/aaronreason/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/tools/avr/lib/gcc/avr/7.3.0/include-fixed",
+                "/home/aaronreason/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/tools/avr/avr/include"
             ],
             "forcedInclude": [
-                "/home/aaron/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/arduino/avr/cores/arduino/Arduino.h"
+                "/home/aaronreason/Downloads/arduino-1.8.16-linux64/arduino-1.8.16/hardware/arduino/avr/cores/arduino/Arduino.h"
             ],
             "cStandard": "c11",
             "cppStandard": "c++11",

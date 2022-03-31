@@ -106,7 +106,7 @@ public:
     delay(1);
 
 
-    if(nextStation->stationSection == currentSection)
+    if(nextStation->stationSection == currentSection && nextStation->trainCanLeave == false)
     {
       decelerate();
       if(nextStation->isOccupied == true)
@@ -202,7 +202,6 @@ public:
       }
       else
       {
-
         setNextSection();
       }
     }
@@ -228,32 +227,15 @@ public:
         currentSpeed += 0.1;
         analogWrite(speedPin, (int)currentSpeed);
       }
-      
-//      if speed <= 0 
-//      then accelerate = true
-//      if (speed > 254)
-//      {
-//        accelerate = false
-//      }
-
     }
 
     void decelerate() 
-    {        nextSensor = &sensorArray[nextSensor->index+1*(int)trainDirection];
+    {
 
       {
         currentSpeed -= 0.1;
         analogWrite(speedPin, (int)currentSpeed);
       }
-       
-
-//       if (speed = 255)
-//       {
-//          accelerate = false
-//          decelerate = true
-//       }
-//       analogWrite(pin, (int)currentSpeed)
-//       }
 
     }
 
@@ -291,6 +273,7 @@ public:
       {
         if(ptr->destination == nextStation)
         {
+          nextStation->trainCanLeave = false;
           if(trainDirection == Forward && !shouldChangeDirection())
           {
             nextStation = ptr->nextStation->destination;

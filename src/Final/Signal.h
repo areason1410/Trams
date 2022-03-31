@@ -75,14 +75,18 @@ class Signal
  * @brief Array of all our signals
  * 
  */
-Signal signalArray[6] = 
+Signal signalArray[4] = 
 {
-    Signal(ALEDGreenForward, ALEDRedForward, Forward, A),
-    Signal(ALEDGreenBackward, ALEDRedBackward, Backward, A),
     Signal(BLEDGreenForward, BLEDRedForward, Forward, B),
-    Signal(BLEDGreenBackward, BLEDRedBackward, Backward, B),
-    Signal(CLEDGreenForward, CLEDRedForward, Forward, C),
-    Signal(CLEDGreenBackward, CLEDRedBackward, Backward, C)
+    Signal(BLEDGreenBackward, BLEDGreenBackward, Backward, B),
+    Signal(ALEDGreenBackward, ALEDRedBackward, Backward, A),
+    Signal(CLEDGreenForward, CLEDRedForward, Forward, C)
+    // Signal(ALEDGreenForward, ALEDRedForward, Forward, A),
+    // Signal(ALEDGreenBackward, ALEDRedBackward, Backward, A),
+    // Signal(BLEDGreenForward, BLEDRedForward, Forward, B),
+    // Signal(BLEDGreenBackward, BLEDRedBackward, Backward, B),
+    // Signal(CLEDGreenForward, CLEDRedForward, Forward, C),
+    // Signal(CLEDGreenBackward, CLEDRedBackward, Backward, C)
     // Signal(LEDLG, LEDLR, Forward, B),
     // Signal(LEDRG, LEDRR, Forward, C),
     // Signal(LEDRG, LEDRR, Backward, B),

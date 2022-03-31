@@ -109,14 +109,12 @@ class Sensor: public StationSensor
  * @brief Array of sensors
  * 
  */
-Sensor sensorArray[6] =
+Sensor sensorArray[4] =
 {
-    Sensor(AIRLeft, &signalArray[0], 0, Forward),
-    Sensor(AIRRight, &signalArray[1], 1, Backward),
-    Sensor(BIRLeft, &signalArray[2], 2, Forward),
-    Sensor(BIRRight, &signalArray[3], 3, Backward),
-    Sensor(CIRLeft, &signalArray[4], 4, Forward),
-    Sensor(CIRRight, &signalArray[5], 5, Backward),
+    Sensor(BIRLeft, &signalArray[0], 0, Forward),
+    Sensor(BIRRight, &signalArray[1], 1, Backward),
+    Sensor(AIRRight, &signalArray[2], 2, Backward),
+    Sensor(CIRLeft, &signalArray[3], 3, Forward),
 
 };
 
