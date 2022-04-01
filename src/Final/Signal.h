@@ -1,12 +1,6 @@
 #pragma once
 #include "Enums.h"
 
-const byte LEDLG = 5;
-const byte LEDLR = 6;
-
-const byte LEDRG = 7;
-const byte LEDRR = 8;
-
 class Signal 
 {
   public:
@@ -26,13 +20,14 @@ class Signal
      */
     Signal(int greenPin, int redPin, Direction signalDirection, Section section) 
     {
-      delay(1);
+      // delay(1);
       this->redPin = redPin;
       this->greenPin = greenPin;
       this->signalDirection = signalDirection;
       this->section = section;
       this->state = 1;
       digitalWrite(greenPin, HIGH);
+      // Serial.println("xsfiasdjf");
     }
     
     /**
@@ -78,9 +73,9 @@ class Signal
 Signal signalArray[4] = 
 {
     Signal(BLEDGreenForward, BLEDRedForward, Forward, B),
+    Signal(CLEDGreenForward, CLEDRedForward, Forward, C),
     Signal(BLEDGreenBackward, BLEDGreenBackward, Backward, B),
     Signal(ALEDGreenBackward, ALEDRedBackward, Backward, A),
-    Signal(CLEDGreenForward, CLEDRedForward, Forward, C)
 
 
 };

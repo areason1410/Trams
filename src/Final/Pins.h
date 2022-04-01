@@ -1,6 +1,6 @@
 #pragma once
 const byte 
-    SalisburyIRRight = 11,
+    SalisburyIRRight = 6,
     BemertonIRLeft = 3,
     BemertonIRRight = 2,
     WiltonIRLeft = 8,
@@ -12,10 +12,12 @@ const byte
     ALEDRedBackward = 24,
     ALEDGreenBackward = 25,
 
+
+
     BIRLeft = 5,
     BIRRight = 4,
-    BLEDRedForward = 42,
-    BLEDGreenForward = 43,
+    BLEDRedForward = 30,
+    BLEDGreenForward = 31,
     BLEDRedBackward = 44,
     BLEDGreenBackward = 45,
 
@@ -24,5 +26,8 @@ const byte
     CLEDRedForward = 52,
     CLEDGreenForward = 53,
     CLEDRedBackward = 54,
-    CLEDGreenBackward = 56;
+    CLEDGreenBackward = 56,
 
+    speedPin1 =12,
+    motorLeftPin1 = 26,
+    motorRightPin1 = 27;

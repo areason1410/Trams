@@ -1,5 +1,6 @@
 {
     "board": "arduino:avr:mega",
     "port": "/dev/ttyACM0",
-    "sketch": "src/Final/Final.ino"
+    "sketch": "src/Final/Final.ino",
+    "programmer": "arduino:avrisp"
 }

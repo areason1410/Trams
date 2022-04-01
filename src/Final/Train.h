@@ -24,6 +24,8 @@ public:
   Section currentSection;
   Station* nextStation = nullptr;
   StationStructure* trainDestinations = NULL;
+  Sensor* nextSensor = nullptr;
+
 
 
 
@@ -40,6 +42,7 @@ public:
    */
   Train(int leftMotorPin, int rightMotorPin, int speedPin, Direction trainDirection, Destination* destinations, int destinationCount)
   {
+      // Serial.println("lol");
     this->leftMotorPin = leftMotorPin;
     this->rightMotorPin = rightMotorPin;
     this->speedPin = speedPin;
@@ -54,11 +57,11 @@ public:
 
     if(trainDirection == Forward)
     {
-      nextSensor = &sensorArray[0];
+      nextSensor = &sensorArrayForward[0];
     }
     else
     {
-      nextSensor = &sensorArray[ARRSIZE(sensorArray)-1];
+      // nextSensor = &sensorArrayForward[ARRSIZE(sensorArraFory)-2];
     }
     
     digitalWrite(leftMotorPin, HIGH);
@@ -104,8 +107,8 @@ public:
   void update()
   {
     delay(1);
-
-
+    // analogWrite(speedPin, 255);
+      accelerate();
     if(nextStation->stationSection == currentSection && nextStation->trainCanLeave == false)
     {
       decelerate();
@@ -119,10 +122,9 @@ public:
         updateStation();
       }
     }
-    else
-    {
-      accelerate();
-    }
+    
+    
+    
 
     if(nextSectionIsFree() == false)
     {
@@ -133,7 +135,6 @@ public:
   }
 
   private:
-    Sensor* nextSensor = nullptr;
 
     /**
      * @brief Helper function to check if the next section is free
@@ -143,7 +144,7 @@ public:
      */
     bool nextSectionIsFree()
     {
-      delay(1);
+      // delay(1);
       if(nextSensor->theSignal->getState() == IRLOW)
       {
           return true;
@@ -159,43 +160,77 @@ public:
      */
     void updateSection()
     {
-      delay(1);
-      if(nextSensor->getState() == IRLOW) 
+      if(trainDirection == Forward)
       {
+          if(nextSensor->index == ARRSIZE(sensorArrayForward)-1)
+          {
+            changeDirection();
+            currentSection = nextSensor->theSignal->section;
+            nextSensor = &sensorArrayBackward[1];
+
+          }
+          else
+          {
+            currentSection = nextSensor->theSignal->section;
+            nextSensor = &sensorArrayForward[nextSensor->index+1];
+          }
       }
       else
       {
-        setNextSection();
+        if(nextSensor->index == 0)
+        {
+          changeDirection();
+          currentSection = nextSensor->theSignal->section;
+          nextSensor = &sensorArrayForward[0];
+        }
+        // else
+        // {
+        //   currentSection = nextSensor->theSignal->section;
+        //   nextSensor = &sensorArrayBackward[nextSensor->index-1];
+        // }
       }
+      // if(nextSensor->index+1 > ARRSIZE(sensorArray) || nextSensor->index != 0)
+      // {
+      //   changeDirection();
+      //   return;
+      // }
+      // else
+      // {
+        // currentSection = nextSensor->theSignal->section;
+        // nextSensor->theSignal->changeState(1);
+        // nextSensor = &sensorArrayForward[nextSensor->index+1];
+      // }
+        // setNextSection();
+      
     }
 
     void setNextSection()
     {
-      if(nextSensor->index+1 > ARRSIZE(sensorArray) || nextSensor->index == 0)
-      {
-        changeDirection();
-        return;
-      }
-      else
-      {
+      // if(nextSensor->index+1 > ARRSIZE(sensorArray) || nextSensor->index == 0)
+      // {
+      //   changeDirection();
+      //   return;
+      // }
+      // else
+      // {
         currentSection = nextSensor->theSignal->section;
         nextSensor->theSignal->changeState(1);
-        nextSensor = &sensorArray[nextSensor->index+1*(int)trainDirection];
-      }
+        nextSensor = &sensorArrayForward[nextSensor->index+1];
+      // }
     }
 
     void accelerate() 
     {
       if(currentSpeed < 255)
       {
-        currentSpeed += 0.1;
+        currentSpeed += 1;
         analogWrite(speedPin, (int)currentSpeed);
       }
     }
 
     void decelerate() 
     {
-
+      if(currentSpeed > 0 )
       {
         currentSpeed -= 0.1;
         analogWrite(speedPin, (int)currentSpeed);

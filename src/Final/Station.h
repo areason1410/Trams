@@ -21,8 +21,9 @@ public:
     
     void update()
     {
-        leftSensor->update();
-        rightSensor->update();
+        // Serial.println("jg");
+        if(leftSensor != nullptr) leftSensor->update();
+        if(rightSensor != nullptr) rightSensor->update();
         if(isOccupied == false && trainDetected())
         {
             isOccupied = true;

@@ -50,6 +50,6 @@ enum Destination
  */
 Section destinationSection(Destination destination)
 {
-    return (Section)((int)destination+1);
+    return (Section)((int)destination);
 }
 
