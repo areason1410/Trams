@@ -80,6 +80,14 @@ Signal signalArray[4] =
 
 };
 
+
+void RESETALLSIGNALS()
+{
+  for(Signal &signal: signalArray)
+  {
+    signal.state = 1;
+  }
+}
 /**
  * @brief Helper function to check for which signal is next
  * 
@@ -92,4 +100,3 @@ bool checkIfIsNextSection(Section currentSection, Signal signalToCompare)
   delay(1);
   return (int)signalToCompare.section == (int)currentSection+1*(int)signalToCompare.signalDirection;
 }
-

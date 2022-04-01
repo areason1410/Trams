@@ -32,7 +32,7 @@ void setup()
     pinMode(motorLeftPin1, OUTPUT);
     pinMode(motorRightPin1, OUTPUT);
     Serial.begin(9600);
-    Serial.println("sdkfjb");
+    Serial.println(train1.currentSection);
 
     // if(train1 == nullptr)
     // train1 = new Train(motorLeftPin1, motorRightPin1, speedPin1, Forward, train1Stops, ARRSIZE(train1Stops));
@@ -63,8 +63,9 @@ void loop()
     }
 
     train1.update();
-    Serial.println(train1.currentSection);
-    Serial.println("---");
-    Serial.println(train1.nextSensor->theSignal->section);
+//    Serial.println(train1.currentSection);
+//    Serial.println("---");
+//    Serial.println((int)train1.trainDirection);
+//    Serial.println(train1.nextSensor->theSignal->section);
     // Serial.println(digitalRead(BIRLeft));
 }

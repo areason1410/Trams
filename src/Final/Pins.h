@@ -3,7 +3,7 @@ const byte
     SalisburyIRRight = 6,
     BemertonIRLeft = 3,
     BemertonIRRight = 2,
-    WiltonIRLeft = 8,
+    WiltonIRLeft = 7,
 
     AIRLeft = 10,
     AIRRight = 9,
@@ -22,7 +22,7 @@ const byte
     BLEDGreenBackward = 45,
 
     CIRLeft = 6,
-    CIRRight = 7,
+    CIRRight = 8,
     CLEDRedForward = 52,
     CLEDGreenForward = 53,
     CLEDRedBackward = 54,

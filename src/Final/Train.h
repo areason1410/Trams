@@ -8,8 +8,8 @@ byte speedPin = 11;
 
 struct StationStructure { 
    Station* destination; 
-   struct StationStructure *previousStation; 
-   struct StationStructure *nextStation; 
+   StationStructure *previousStation; 
+   StationStructure *nextStation; 
 }; 
 
 class Train {
@@ -145,7 +145,7 @@ public:
     bool nextSectionIsFree()
     {
       // delay(1);
-      if(nextSensor->theSignal->getState() == IRLOW)
+      if(nextSensor->theSignal->getState() == 1)
       {
           return true;
       }
@@ -160,34 +160,77 @@ public:
      */
     void updateSection()
     {
+      delay(100);
       if(trainDirection == Forward)
       {
-          if(nextSensor->index == ARRSIZE(sensorArrayForward)-1)
+//        Serial.println("Forward");
+//                          Serial.println(nextSensor->index);
+                                            
+          if(nextSensor->index == 1)
           {
+             Serial.print("Changing Section to: ");
+            Serial.println((int)nextSensor->theSignal->section);
+            
             changeDirection();
+            Serial.print("Changing Direction Aswell to: ");
+            Serial.println((int)trainDirection);
+            
             currentSection = nextSensor->theSignal->section;
             nextSensor = &sensorArrayBackward[1];
+            
+            Serial.println(nextSensor->pin);
+            delay(500);
+                        Serial.print("INDEX: ");
+            Serial.println(nextSensor->index);
 
           }
           else
           {
+            Serial.print("Changing Section to: ");
+            Serial.println((int)nextSensor->theSignal->section);
             currentSection = nextSensor->theSignal->section;
+            nextSensor->theSignal->changeState(1);
             nextSensor = &sensorArrayForward[nextSensor->index+1];
+                        Serial.print("INDEX: ");
+            Serial.println(nextSensor->index);
           }
       }
       else
       {
-        if(nextSensor->index == 0)
-        {
-          changeDirection();
-          currentSection = nextSensor->theSignal->section;
-          nextSensor = &sensorArrayForward[0];
-        }
-        // else
-        // {
-        //   currentSection = nextSensor->theSignal->section;
-        //   nextSensor = &sensorArrayBackward[nextSensor->index-1];
-        // }
+              //  Serial.println("Backward");
+                //  Serial.println(nextSensor->index);
+                  //Serial.println(nextSensor->theSignal->getState());
+            if(nextSensor->index == 0)
+            {
+              if(nextSensor->state == IRLOW) return;
+               Serial.print("Changing Section to: ");
+            Serial.println((int)nextSensor->theSignal->section);
+            
+            changeDirection();
+            Serial.print("Changing Direction Aswell to: ");
+            Serial.println((int)trainDirection);
+            
+            nextSensor->theSignal->changeState(1);
+            currentSection = nextSensor->theSignal->section; ;
+            nextSensor = &sensorArrayForward[0];
+            
+            Serial.print("INDEX: ");
+            Serial.println(nextSensor->index);
+//            delay(2000);
+            RESETALLSIGNALS();
+            }
+            else
+            {
+                          Serial.print("Changing Section to: ");
+            Serial.println((int)nextSensor->theSignal->section);
+                currentSection = nextSensor->theSignal->section;
+                
+                nextSensor->theSignal->changeState(1);
+                nextSensor = &sensorArrayBackward[nextSensor->index-1]; 
+                            Serial.print("INDEX: ");
+            Serial.println(nextSensor->index);             
+            }
+          
       }
       // if(nextSensor->index+1 > ARRSIZE(sensorArray) || nextSensor->index != 0)
       // {
@@ -202,21 +245,6 @@ public:
       // }
         // setNextSection();
       
-    }
-
-    void setNextSection()
-    {
-      // if(nextSensor->index+1 > ARRSIZE(sensorArray) || nextSensor->index == 0)
-      // {
-      //   changeDirection();
-      //   return;
-      // }
-      // else
-      // {
-        currentSection = nextSensor->theSignal->section;
-        nextSensor->theSignal->changeState(1);
-        nextSensor = &sensorArrayForward[nextSensor->index+1];
-      // }
     }
 
     void accelerate() 

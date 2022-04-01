@@ -125,8 +125,8 @@ Sensor sensorArrayForward[2] =
 Sensor sensorArrayBackward[2] =
 {
     // s1,s2,s3,s4
-    Sensor(AIRRight, &signalArray[3], 2, Backward),
-    Sensor(BIRRight, &signalArray[2], 3, Backward),
+    Sensor(AIRRight, &signalArray[3], 0, Backward),
+    Sensor(BIRRight, &signalArray[2], 1, Backward),
 
 };
 
