@@ -104,16 +104,26 @@ public:
    * @brief Update function to be called each iteration in the main loop
    * 
    */
+
+   // pass train as parameter to the station cuz the isoccupied isnt getting passed correctly
   void update()
   {
     delay(1);
+          stationArray[1].update();
     // analogWrite(speedPin, 255);
       accelerate();
-    if(nextStation->stationSection == currentSection && nextStation->trainCanLeave == false)
+      //Serial.println((int)nextStation->stationLocation);
+      if((int)nextStation->stationLocation == (int)currentSection && nextStation->trainCanLeave == false)
+      //Serial.println("LOL");
+    if((int)nextStation->stationLocation == (int)currentSection && nextStation->trainCanLeave == false)
     {
-      decelerate();
+     // decelerate();
+     Serial.print("FROM UPDATE LOOP: ");
+     Serial.println(nextStation->isOccupiedBool());
+     //trainStop();
       if(nextStation->isOccupied == true)
       {
+        Serial.println("iudsuafhgsyughsudh");
         delay(1000);
         trainStop();
         delay(5000);
@@ -171,7 +181,7 @@ public:
              Serial.print("Changing Section to: ");
             Serial.println((int)nextSensor->theSignal->section);
             
-            changeDirection();
+            //changeDirection();
             Serial.print("Changing Direction Aswell to: ");
             Serial.println((int)trainDirection);
             
@@ -206,7 +216,7 @@ public:
                Serial.print("Changing Section to: ");
             Serial.println((int)nextSensor->theSignal->section);
             
-            changeDirection();
+            //changeDirection();
             Serial.print("Changing Direction Aswell to: ");
             Serial.println((int)trainDirection);
             

@@ -57,10 +57,11 @@ void loop()
         sensor.update();
     }
 
-    for(Station &station: stationArray)
-    {
-        station.update();
-    }
+//    for(Station &station: stationArray)
+//    {
+//        station.update();
+//    }
+
 
     train1.update();
 //    Serial.println(train1.currentSection);
