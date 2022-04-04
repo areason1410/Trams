@@ -27,7 +27,6 @@ class Signal
       this->section = section;
       this->state = 1;
       digitalWrite(greenPin, HIGH);
-      // Serial.println("xsfiasdjf");
     }
     
     /**

@@ -24,7 +24,6 @@ class StationSensor
         this->state = IRLOW;
         this->index = index;
         pinMode(this->pin, INPUT);
-        // Serial.println("XD");
 
       }
 
@@ -47,12 +46,7 @@ class StationSensor
        */
       virtual void update()
       {
-          // delay(1);
-
-          // readState();
-          // Serial.println("asdf");
-            this->state = digitalRead(this->pin);
-          // delay(1);
+          this->state = digitalRead(this->pin);
       }
 
       bool getState()
@@ -72,19 +66,13 @@ class Sensor: public StationSensor
 
     Sensor(int pin, Signal* theSignalIn, int index, Direction direction): StationSensor(pin, index)
     {
-      // Serial.println("oasdg");
       this->theSignal = theSignalIn;
       this->direction = direction;
-      // delay(100);
-      // pinMode(this->pin, INPUT);
     }
 
     void update()
     {
-      // delay(1);
-
       readState();
-      // delay(1);
       if(state == IRHIGH)
       {
           theSignal->changeState(0);
@@ -103,20 +91,12 @@ class Sensor: public StationSensor
 };
 
 
-
-
-// Sensor s1(BIRLeft, &signalArray[0], 0, Forward);
-// Sensor s2(BIRRight, &signalArray[1], 1, Backward);
-// Sensor s3(AIRRight, &signalArray[2], 2, Backward);
-// Sensor s4(CIRLeft, &signalArray[3], 3, Forward);
-
 /**
  * @brief Array of sensors
  * 
  */
 Sensor sensorArrayForward[2] =
 {
-    // s1,s2,s3,s4
     Sensor(BIRLeft, &signalArray[0], 0, Forward),
     Sensor(CIRLeft, &signalArray[1], 1, Forward),
 
@@ -124,7 +104,6 @@ Sensor sensorArrayForward[2] =
 
 Sensor sensorArrayBackward[2] =
 {
-    // s1,s2,s3,s4
     Sensor(AIRRight, &signalArray[3], 0, Backward),
     Sensor(BIRRight, &signalArray[2], 1, Backward),
 

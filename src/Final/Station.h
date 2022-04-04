@@ -23,20 +23,10 @@ public:
     
     void update()
     {
-        // Serial.println("jg");
         if(leftSensor != nullptr) leftSensor->update();
         if(rightSensor != nullptr) rightSensor->update();
-//        Serial.print("LEFT: ");
-//        Serial.println(leftSensor->getState());
-//        Serial.print("RIGHT: ");
-//        Serial.println(rightSensor->getState());
-//        Serial.print("LOCATION: ");
-//        Serial.println((int)stationLocation);
-        // Serial.print("FROM CLASS: ");
-        // Serial.println(isOccupied);
         if(isOccupied == false && trainDetected())
         {
-          //Serial.println(trainDetected());
             isOccupied = true;
             trainCanLeave = false;
         }
