@@ -26,6 +26,8 @@ public:
   StationStructure* trainDestinations = NULL;
   Sensor* nextSensor = nullptr;
 
+  bool changingDirection = false;
+
 
 
 
@@ -118,7 +120,7 @@ public:
           stationArray[1].update();
           stationArray[2].update();
     // analogWrite(speedPin, 255);
-      accelerate();
+      accelerate();analogWrite(speedPin, 255);
       // Serial.println("LOL");
       // if((int)nextStation->stationLocation == (int)currentSection)
       // Serial.print("Next station: ");
@@ -126,15 +128,21 @@ public:
       // Serial.print("Current section: ");
       // Serial.println((int)currentSection);
       // delay(500);
-      
-                  // Serial.print("Next section: ");
+      // Serial.print("State of next sensor: ");
+      // Serial.println(nextSensor->getState());
+      // Serial.print("ID of next sensor: ");
+      // Serial.println(nextSensor->index);
+      // Serial.print("Direction: ");
+      // Serial.println(nextSensor->direction);
+      //if(nextSensor->getState() == 0) delay(1000);
+            //       Serial.print("Next section: ");
 
             // Serial.println((int)nextSensor->theSignal->section);
     if((int)nextStation->stationLocation == (int)currentSection && nextStation->trainCanLeave == false)
     {
      // decelerate();
     //  Serial.print("FROM UPDATE LOOP: ");
-    //  Serial.println(nextStation->isOccupiedBool());
+     Serial.println(nextStation->isOccupiedBool());
      //trainStop();
       if(nextStation->isOccupied == true)
       {
@@ -187,83 +195,172 @@ public:
     void updateSection()
     {
       delay(100);
-      if(trainDirection == Forward)
+      
+      // if(changingDirection == true)
+      // {
+      //   if(trainDirection == Forward)
+      //   {
+      //     RESETALLSIGNALS();
+      //     nextSensor = &sensorArrayBackward[1];
+      //   }
+      //   else
+      //   {
+      //     RESETALLSIGNALS();
+
+      //     nextSensor = &sensorArrayForward[0];
+      //   }
+      //   changingDirection = false;
+      //   return;
+      // }
+
+      if(trainDirection == Forward && nextStation->stationLocation != Wilton)
       {
-       Serial.println("Forward");
-//                          Serial.println(nextSensor->index);
+        currentSection = nextSensor->theSignal->section;
+        nextSensor = &sensorArrayForward[nextSensor->index+1];
+      }
+      else if(trainDirection == Backward && nextStation->stationLocation != Salisbury)
+      {
+        currentSection = nextSensor->theSignal->section;
+        nextSensor = &sensorArrayBackward[nextSensor->index-1];
+      }
+      else if(trainDirection == Forward && nextStation->stationLocation == Wilton)
+      {
+        RESETALLSIGNALS();
+        currentSection = C;
+        nextSensor = &sensorArrayBackward[1];
+      }
+      else if(trainDirection == Backward && nextStation->stationLocation == Salisbury)
+      {
+        RESETALLSIGNALS();
+        currentSection = A;
+        nextSensor = &sensorArrayForward[0];
+      }
+
+      // if(trainDirection == Forward)
+      // {
+      //     if(nextSensor->index == 1 && nextStation->stationLocation != Wilton)
+      //     {
+      //       Serial.println("LOL");
+      //       // changeDirection();
+      //         nextSensor = &sensorArrayBackward[1];
+      //         changingDirection = false;
+      //       RESETALLSIGNALS();
+
+      //     }
+      //     else
+      //     {
+      //       Serial.println("xd");
+      //       currentSection = nextSensor->theSignal->section;
+      //       if(nextSensor->index < ARRSIZE(sensorArrayForward)-1)nextSensor = &sensorArrayForward[nextSensor->index+1];
+      //     }
+      // }
+      // else if(trainDirection == Backward)
+      // {
+      //   // Serial.println("lol");
+      //   if(changingDirection == true)
+      //   {
+      //     nextSensor = &sensorArrayBackward[1];
+      //     Serial.println("aixsbasi");
+      //     changingDirection = false;
+      //     return;
+      //   }
+      //     if(nextSensor->index == 0 && nextStation->stationLocation != Salisbury)
+      //     {
+      //       nextSensor = &sensorArrayForward[0];
+      //       Serial.println("xdasdjlghbafhkjgbashjgf");
+
+      //       RESETALLSIGNALS();
+      //     }
+      //     else
+      //     {
+      //       Serial.println("xdasdf");
+
+      //       currentSection = nextSensor->theSignal->section;
+      //       if(nextSensor->direction == Backward) 
+      //       {
+      //                     nextSensor = &sensorArrayBackward[nextSensor->index-1];
+
+      //       }
+      //       else nextSensor = &sensorArrayBackward[1];
+      //     }
+      // }
+//       if(trainDirection == Forward)
+//       {
+//        Serial.println("Forward");
+// //                          Serial.println(nextSensor->index);
                                             
-          if(nextSensor->index == 1 && nextStation->stationLocation != Wilton)
-          {
-            //  Serial.print("Changing Section to: ");
-            // Serial.println((int)nextSensor->theSignal->section);
+//           if(nextSensor->index == 1 && nextStation->stationLocation != Wilton)
+//           {
+//             //  Serial.print("Changing Section to: ");
+//             // Serial.println((int)nextSensor->theSignal->section);
             
-            //changeDirection();
-            // Serial.print("Changing Direction Aswell to: ");
-            // Serial.println((int)trainDirection);
+//             //changeDirection();
+//             // Serial.print("Changing Direction Aswell to: ");
+//             // Serial.println((int)trainDirection);
             
-            currentSection = nextSensor->theSignal->section;
-            Serial.print("NEWSECCTION: ");
-            Serial.println((int)currentSection);
-            nextSensor = &sensorArrayBackward[1];
+//             currentSection = nextSensor->theSignal->section;
+//             Serial.print("NEWSECCTION: ");
+//             Serial.println((int)currentSection);
+//             nextSensor = &sensorArrayBackward[1];
             
-            // Serial.println(nextSensor->pin);
-            // delay(500);
-                        // Serial.print("INDEX: ");
-            // Serial.println(nextSensor->index);
+//             // Serial.println(nextSensor->pin);
+//             // delay(500);
+//                         // Serial.print("INDEX: ");
+//             // Serial.println(nextSensor->index);
 
-          }
-          else
-          {
-            // if(nextSensor->index == ARRSIZE(sensorArrayForward)-1) return;
-            Serial.print("Changing Section to: ");
-            Serial.println((int)nextSensor->theSignal->section);
-            currentSection = nextSensor->theSignal->section;
-            nextSensor->theSignal->changeState(1);
-            nextSensor = &sensorArrayForward[nextSensor->index+1];
-                        Serial.print("INDEX: ");
-            Serial.println(nextSensor->index);
-          }
-      }
-      if(trainDirection == Backward)
-      {
-               Serial.println("Backward");
-                //  Serial.println(nextSensor->index);
-                  //Serial.println(nextSensor->theSignal->getState());
-            if(nextSensor->index == 0)
-            {
-              Serial.println("ASF");
-              if(nextSensor->state == IRLOW) return;
-               Serial.print("Changing Section to: ");
-            Serial.println((int)nextSensor->theSignal->section);
+//           }
+//           else
+//           {
+//             // if(nextSensor->index == ARRSIZE(sensorArrayForward)-1) return;
+//             Serial.print("Changing Section to: ");
+//             Serial.println((int)nextSensor->theSignal->section);
+//             currentSection = nextSensor->theSignal->section;
+//             nextSensor->theSignal->changeState(1);
+//             nextSensor = &sensorArrayForward[nextSensor->index+1];
+//                         Serial.print("INDEX: ");
+//             Serial.println(nextSensor->index);
+//           }
+//       }
+//       if(trainDirection == Backward)
+//       {
+//                Serial.println("Backward");
+//                 //  Serial.println(nextSensor->index);
+//                   //Serial.println(nextSensor->theSignal->getState());
+//             if(nextSensor->index == 0)
+//             {
+//               Serial.println("ASF");
+//               if(nextSensor->state == IRLOW) return;
+//                Serial.print("Changing Section to: ");
+//             Serial.println((int)nextSensor->theSignal->section);
             
-            //changeDirection();
-            Serial.print("Changing Direction Aswell to: ");
-            Serial.println((int)trainDirection);
+//             //changeDirection();
+//             Serial.print("Changing Direction Aswell to: ");
+//             Serial.println((int)trainDirection);
             
-            nextSensor->theSignal->changeState(1);
-            currentSection = nextSensor->theSignal->section; ;
-            nextSensor = &sensorArrayForward[0];
+//             nextSensor->theSignal->changeState(1);
+//             currentSection = nextSensor->theSignal->section; ;
+//             nextSensor = &sensorArrayForward[0];
             
-            Serial.print("INDEX: ");
-            Serial.println(nextSensor->index);
-//            delay(2000);
-            RESETALLSIGNALS();
-            }
-            else
-            {
-              Serial.println("ASFasdfasdf");
+//             Serial.print("INDEX: ");
+//             Serial.println(nextSensor->index);
+// //            delay(2000);
+//             RESETALLSIGNALS();
+//             }
+//             else
+//             {
+//               Serial.println("ASFasdfasdf");
 
-                          Serial.print("Changing Section to: ");
-            Serial.println((int)nextSensor->theSignal->section);
-                currentSection = nextSensor->theSignal->section;
+//                           Serial.print("Changing Section to: ");
+//             Serial.println((int)nextSensor->theSignal->section);
+//                 currentSection = nextSensor->theSignal->section;
                 
-                nextSensor->theSignal->changeState(1);
-                nextSensor = &sensorArrayBackward[nextSensor->index]; 
-                            Serial.print("INDEX: ");
-            Serial.println(nextSensor->index);             
-            }
+//                 nextSensor->theSignal->changeState(1);
+//                 nextSensor = &sensorArrayBackward[nextSensor->index]; 
+//                             Serial.print("INDEX: ");
+//             Serial.println(nextSensor->index);             
+//             }
           
-      }
+//       }
       // if(nextSensor->index+1 > ARRSIZE(sensorArray) || nextSensor->index != 0)
       // {
       //   changeDirection();
@@ -332,14 +429,18 @@ public:
       {
         if(ptr->destination == nextStation)
         {
+
           // nextStation->trainCanLeave = true;
           if(trainDirection == Forward && !shouldChangeDirection())
           {
+            nextStation->isOccupied = false;
             nextStation = ptr->nextStation->destination;
             Serial.println("Updated");
           }
           else if(trainDirection == Backward && !shouldChangeDirection())
           {
+            nextStation->isOccupied = false;
+
             nextStation = ptr->previousStation->destination;
             Serial.print("Next Station: ");
             Serial.println((int)nextStation->stationLocation);
@@ -348,9 +449,10 @@ public:
           {
             Serial.println("GOING BACK");
             changeDirection();
+            changingDirection = true;
             updateSection();
             updateStation(); //cheeky recursion, i hope it doesnt kill us xd
-            delay(5000);
+            //delay(5000);
           }
           ptr = NULL;
         }

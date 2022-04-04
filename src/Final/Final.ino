@@ -10,7 +10,7 @@ void setup()
     pinMode(BemertonIRRight, INPUT);
     pinMode(BemertonIRLeft, INPUT);
     pinMode(WiltonIRLeft, INPUT);
-    pinMode(AIRLeft, INPUT);
+    // pinMode(AIRLeft, INPUT);
     pinMode(AIRRight, INPUT);
     pinMode(ALEDGreenBackward, OUTPUT);
     pinMode(ALEDGreenForward, OUTPUT);
@@ -23,7 +23,7 @@ void setup()
     pinMode(BLEDGreenBackward, OUTPUT);
     pinMode(BLEDGreenForward, OUTPUT);
     pinMode(CIRLeft, INPUT);
-    pinMode(CIRRight, INPUT);
+    // pinMode(CIRRight, INPUT);
     pinMode(CLEDRedForward, OUTPUT);
     pinMode(CLEDRedBackward, OUTPUT);
     pinMode(CLEDGreenBackward, OUTPUT);
