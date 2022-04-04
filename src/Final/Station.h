@@ -8,8 +8,8 @@ public:
     StationSensor *leftSensor = nullptr, *rightSensor = nullptr;
     Destination stationLocation;
     Section stationSection;
-    bool isOccupied = false;
-    bool trainCanLeave = false;
+    bool isOccupied;
+    bool trainCanLeave;
 
     Station(StationSensor* ls, StationSensor* rs, Destination location)
     {
@@ -17,6 +17,8 @@ public:
         rightSensor = rs;
         stationLocation = location;
         stationSection = destinationSection(location);
+        isOccupied = false;
+        trainCanLeave = false;
     }
     
     void update()
@@ -30,8 +32,8 @@ public:
 //        Serial.println(rightSensor->getState());
 //        Serial.print("LOCATION: ");
 //        Serial.println((int)stationLocation);
-        Serial.print("FROM CLASS: ");
-        Serial.println(isOccupied);
+        // Serial.print("FROM CLASS: ");
+        // Serial.println(isOccupied);
         if(isOccupied == false && trainDetected())
         {
           //Serial.println(trainDetected());

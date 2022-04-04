@@ -32,7 +32,7 @@ void setup()
     pinMode(motorLeftPin1, OUTPUT);
     pinMode(motorRightPin1, OUTPUT);
     Serial.begin(9600);
-    Serial.println(train1.currentSection);
+    // Serial.println(train1.currentSection);
 
     // if(train1 == nullptr)
     // train1 = new Train(motorLeftPin1, motorRightPin1, speedPin1, Forward, train1Stops, ARRSIZE(train1Stops));
